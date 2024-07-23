@@ -20,17 +20,39 @@
         <div class="nav-container">
             <nav id="main-menu-navigation" class="navigation-main">
                 <div class="nav-item {{ $segment1 == 'dashboard' ? 'active' : '' }}">
-                    <a href="{{ url('dashboard') }}"><i
-                            class="ik ik-bar-chart-2"></i><span>{{ __('Dashboard') }}</span> </a>
+                    <a href="{{ url('dashboard') }}"><i class="ik ik-bar-chart-2"></i><span>{{ __('Dashboard') }}</span>
+                    </a>
                 </div>
+                <div class="nav-lavel">{{ __('Workout') }} </div>
+                <div class="nav-item {{ $segment1 == 'class' ? 'active' : '' }}">
+                    <a href="javascript:void(0)"><i class="ik ik-check-circle"></i><span>{{ __('Class') }}</span> </a>
+                </div>
+                <div class="nav-item {{ $segment1 == 'schedule' ? 'active' : '' }}">
+                    <a href="javascript:void(0)"><i class="ik ik-calendar"></i><span>{{ __('Schedule') }}</span> </a>
+                </div>
+                <div class="nav-item {{ $segment1 == 'reminder' ? 'active' : '' }}">
+                    <a href="javascript:void(0)"><i class="ik ik-clock"></i><span>{{ __('Reminder') }}</span> </a>
+                </div>
+                <div class="nav-item {{ $segment1 == 'review' ? 'active' : '' }}">
+                    <a href="javascript:void(0)"><i class="ik ik-star"></i><span>{{ __('Review') }}</span> </a>
+                </div>
+                <div class="nav-lavel">{{ __('Report') }} </div>
+                <div class="nav-item {{ $segment1 == 'membership' ? 'active' : '' }}">
+                    <a href="javascript:void(0)"><i class="ik ik-users"></i><span>{{ __('Membership') }}</span> </a>
+                </div>
+                <div class="nav-item {{ $segment1 == 'transaction' ? 'active' : '' }}">
+                    <a href="javascript:void(0)"><i class="ik ik-inbox"></i><span>{{ __('Transaction') }}</span> </a>
+                </div>
+                <div class="nav-lavel">{{ __('Master') }} </div>
                 <div
-                    class="nav-item {{ $segment1 == 'users' || $segment1 == 'roles' || $segment1 == 'permission' || $segment1 == 'user' || $segment1 == 'role' ? 'active open' : '' }} has-sub">
-                    <a href="javascript:void(0)"><i class="ik ik-database"></i><span>{{ __('Master') }}</span></a>
+                    class="nav-item {{ $segment1 == 'users' || $segment1 == 'roles' || $segment1 == 'permission' || $segment1 == 'user' || $segment1 == 'role' || $segment1 == 'admin' || $segment1 == 'trainer' || $segment1 == 'customer' || $segment1 == 'member-plan' ? 'active open' : '' }} has-sub">
+                    <a href="javascript:void(0)"><i class="ik ik-database"></i><span>{{ __('Master Data') }}</span></a>
                     <div class="submenu-content">
                         @can('manage_user' || 'manage_role' || 'manage_permission')
                             <div
                                 class="nav-item {{ $segment1 == 'users' || $segment1 == 'roles' || $segment1 == 'permission' || $segment1 == 'user' || $segment1 == 'role' ? 'active open' : '' }} has-sub">
-                                <a href="javascript:void(0)" class="menu-item {{ $segment1 == 'users' || $segment1 == 'roles' || $segment1 == 'permission' || $segment1 == 'user' || $segment1 == 'role' ? 'active' : '' }}">{{ __('Account Management') }}</a>
+                                <a href="javascript:void(0)"
+                                    class="menu-item {{ $segment1 == 'users' || $segment1 == 'roles' || $segment1 == 'permission' || $segment1 == 'user' || $segment1 == 'role' ? 'active' : '' }}">{{ __('Account Management') }}</a>
                                 <div class="submenu-content">
                                     @can('manage_user')
                                         <a href="{{ url('users') }}"
@@ -47,8 +69,27 @@
                                 </div>
                             </div>
                         @endcan
+                        @can('manage_user')
+                            <div
+                                class="nav-item {{ $segment1 == 'admin' || $segment1 == 'trainer' || $segment1 == 'customer' ? 'active open' : '' }} has-sub">
+                                <a href="javascript:void(0)"
+                                    class="menu-item {{ $segment1 == 'admin' || $segment1 == 'trainer' || $segment1 == 'customer' ? 'active' : '' }}">{{ __('User Management') }}</a>
+                                <div class="submenu-content">
+                                    @can('manage_user')
+                                        <a href="{{ url('admin') }}"
+                                            class="menu-item {{ $segment1 == 'admin' ? 'active' : '' }}">{{ __('Admin') }}</a>
+                                    @endcan
+                                    <a href="{{ url('trainer') }}"
+                                        class="menu-item {{ $segment1 == 'trainer' ? 'active' : '' }}">{{ __('Trainer') }}</a>
+                                    <a href="{{ url('customer') }}"
+                                        class="menu-item {{ $segment1 == 'customer' ? 'active' : '' }}">{{ __('Customer') }}</a>
+                                </div>
+                            </div>
+                        @endcan
                         <a href="javascript:void(0)"
-                            class="menu-item {{ $segment1 == 'trainer' ? 'active' : '' }}">{{ __('Trainer') }}</a>
+                            class="menu-item {{ $segment1 == 'member-plan' ? 'active' : '' }}">{{ __('Member Plan') }}</a>
+                        <a href="javascript:void(0)"
+                            class="menu-item {{ $segment1 == 'speciality' ? 'active' : '' }}">{{ __('Speciality') }}</a>
                     </div>
                 </div>
                 <div class="nav-lavel">{{ __('Documentation') }} </div>

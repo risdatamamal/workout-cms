@@ -1,14 +1,17 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RolesController;
 use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\TrainerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,13 +41,15 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/logout', [LoginController::class, 'logout']);
     Route::get('/clear-cache', [HomeController::class, 'clearCache']);
 
-    // dashboard route
+    // Dashboard
     Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
 
     // get permissions
     Route::get('get-role-permissions-badge', [PermissionController::class, 'getPermissionBadgeByRole']);
+    // get regencies by province
+    Route::get('/regencies/{provinceId}', [UserController::class, 'getRegencies']);
 
-    //User Management
+    // Account Management
     Route::get('/users', [UserController::class, 'index']);
     Route::get('/user/get-list', [UserController::class, 'getUserList']);
     Route::get('/user/create', [UserController::class, 'create']);
@@ -65,6 +70,31 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::post('/permission/create', [PermissionController::class, 'create']);
     Route::get('/permission/update', [PermissionController::class, 'update']);
     Route::get('/permission/delete/{id}', [PermissionController::class, 'delete']);
+
+    // User Management
+    Route::get('/admin', [AdminController::class, 'index']);
+    Route::get('/admin/get-list', [AdminController::class, 'getAdminList']);
+    Route::get('/admin/create', [AdminController::class, 'create']);
+    Route::post('/admin/create', [AdminController::class, 'store'])->name('store-admin');
+    Route::get('/admin/edit/{id}', [AdminController::class, 'edit']);
+    Route::post('/admin/update', [AdminController::class, 'update']);
+    Route::get('/admin/delete/{id}', [AdminController::class, 'delete']);
+
+    Route::get('/trainer', [TrainerController::class, 'index']);
+    Route::get('/trainer/get-list', [TrainerController::class, 'getTrainerList']);
+    Route::get('/trainer/create', [TrainerController::class, 'create']);
+    Route::post('/trainer/create', [TrainerController::class, 'store'])->name('store-trainer');
+    Route::get('/trainer/edit/{id}', [TrainerController::class, 'edit']);
+    Route::post('/trainer/update', [TrainerController::class, 'update']);
+    Route::get('/trainer/delete/{id}', [TrainerController::class, 'delete']);
+
+    Route::get('/customer', [CustomerController::class, 'index']);
+    Route::get('/customer/get-list', [CustomerController::class, 'getCustomerList']);
+    Route::get('/customer/create', [CustomerController::class, 'create']);
+    Route::post('/customer/create', [CustomerController::class, 'store'])->name('store-customer');
+    Route::get('/customer/edit/{id}', [CustomerController::class, 'edit']);
+    Route::post('/customer/update', [CustomerController::class, 'update']);
+    Route::get('/customer/delete/{id}', [CustomerController::class, 'delete']);
 
     // Permission examples
     Route::get('/permission-example', function () {

@@ -21,8 +21,14 @@ use App\Http\Controllers\Api\PermissionController;
 
 Route::post('login', [AuthController::class,'login']);
 
-Route::middleware(['auth:api', 'trainer'])->group(function () {
-    Route::prefix('trainer')->group(function () {
+Route::middleware('auth:api')->group(function () {
+    Route::get('logout', [AuthController::class, 'logout']);
+    Route::get('profile', [AuthController::class, 'profile']);
+    Route::post('change-password', [AuthController::class, 'changePassword']);
+    Route::post('update-profile', [AuthController::class, 'updateProfile']);
+
+    // Trainer
+    Route::middleware('trainer')->prefix('trainer')->group(function () {
         Route::group(['middleware' => 'can:manage_user'], function () {
             Route::get('/users', [UserController::class, 'list']);
             Route::post('/user/create', [UserController::class, 'store']);
@@ -46,14 +52,9 @@ Route::middleware(['auth:api', 'trainer'])->group(function () {
             Route::get('/permission/delete/{id}', [PermissionController::class, 'delete']);
         });
     });
-});
 
-Route::middleware(['auth:api', 'customer'])->group( function() {
-    Route::prefix('customer')->group(function () {
-        Route::get('logout', [AuthController::class, 'logout']);
-
-        Route::get('profile', [AuthController::class, 'profile']);
-        Route::post('change-password', [AuthController::class, 'changePassword']);
-        Route::post('update-profile', [AuthController::class, 'updateProfile']);
+    // Customer
+    Route::middleware('customer')->prefix('customer')->group(function () {
+        Route::post('register', [AuthController::class, 'register']);
     });
 });

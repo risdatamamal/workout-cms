@@ -18,11 +18,12 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            $table->boolean('is_active')->default(0);
-            $table->timestamp('email_verified_at')->nullable();
+            $table->integer('is_active')->default(0);
+            $table->string('photo_url')->nullable();
+            $table->string('phone_number')->nullable();
             $table->char('province_id', 2)->constrained('provinces')->onDelete('cascade')->nullable();
             $table->char('regency_id', 4)->constrained('regencies')->onDelete('cascade')->nullable();
-            $table->string('photo_url')->nullable();
+            $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

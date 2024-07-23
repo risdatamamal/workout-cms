@@ -23,6 +23,8 @@ class DatabaseSeeder extends Seeder
             RoleHasPermissionTableSeeder::class,
             ModelHasRoleTableSeeder::class,
             // ModelHasPermissionTableSeeder::class,
+            TrainerTableSeeder::class,
+            MemberPlanTableSeeder::class,
         ]);
     }
 }

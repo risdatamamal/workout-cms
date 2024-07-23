@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Biodata;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Hash;
-
 use App\Models\User;
 use App\Models\Province;
 use App\Models\Regency;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use DataTables, Auth;
@@ -31,7 +29,7 @@ class UserController extends Controller
 
         $data  = User::get();
 
-        return Datatables::of($data)
+        return DataTables::of($data)
             ->addColumn('roles', function ($data) {
                 $roles = $data->getRoleNames()->toArray();
                 $badge = '';
@@ -57,10 +55,6 @@ class UserController extends Controller
                         $badges .= '<span class="badge badge-secondary m-1">Customer Manage</span>';
                     }
                 }
-
-                // if ($data->name == 'Admin') {
-                //     return '<span class="badge badge-success m-1">All Permissions</span>';
-                // }
 
                 return $badges;
             })
@@ -120,13 +114,9 @@ class UserController extends Controller
                 'regency_id'    => $request->regency_id == 0 ? null : $request->regency_id
             ]);
 
-            $biodata = Biodata::create([
-                'user_id' => $user->id
-            ]);
-
             $user->syncRoles($request->role);
 
-            if ($user && $biodata) {
+            if ($user) {
                 return redirect('users')->with('success', 'New user created!');
             } else {
                 return redirect('users')->with('error', 'Failed to create new user! Try again.');

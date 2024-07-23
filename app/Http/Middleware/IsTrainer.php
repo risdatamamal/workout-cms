@@ -17,7 +17,7 @@ class IsTrainer
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::user() && Auth::user()->hasAnyPermission(['manage_trainer'])) {
+        if (Auth::user() && Auth::user()->hasRole('Trainer')) {
             return $next($request);
         } else {
             $accessToken = Auth::user()->token();

@@ -17,7 +17,7 @@ class IsCustomer
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::user() && Auth::user()->hasAnyPermission(['manage_customer'])) {
+        if (Auth::user() && Auth::user()->hasRole('Customer')) {
             return $next($request);
         } else {
             $accessToken = Auth::user()->token();

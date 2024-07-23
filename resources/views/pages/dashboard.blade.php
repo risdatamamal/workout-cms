@@ -92,7 +92,7 @@
             <div class="col-xl-4 col-md-6">
                 <div class="card new-cust-card">
                     <div class="card-header">
-                        <h3>{{ __('New Customers') }}</h3>
+                        <h3>{{ __('New Trainers') }}</h3>
                         <div class="card-header-right">
                             {{-- <ul class="list-unstyled card-option">
                                 <li><i class="ik ik-chevron-left action-toggle"></i></li>
