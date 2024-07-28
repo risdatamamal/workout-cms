@@ -20,6 +20,7 @@ use App\Http\Controllers\Api\PermissionController;
 
 
 Route::post('login', [AuthController::class,'login']);
+Route::post('register', [AuthController::class, 'register']);
 
 Route::middleware('auth:api')->group(function () {
     Route::get('logout', [AuthController::class, 'logout']);
@@ -55,6 +56,5 @@ Route::middleware('auth:api')->group(function () {
 
     // Customer
     Route::middleware('customer')->prefix('customer')->group(function () {
-        Route::post('register', [AuthController::class, 'register']);
     });
 });

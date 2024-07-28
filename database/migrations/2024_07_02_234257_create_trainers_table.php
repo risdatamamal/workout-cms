@@ -17,8 +17,8 @@ class CreateTrainersTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->integer('contract')->default(0);
-            $table->json('experience');
-            $table->json('speciality');
+            $table->json('experience')->nullable();
+            $table->json('speciality')->nullable();
             $table->json('certification')->nullable();
             $table->date('contracted_at')->nullable();
             $table->timestamps();

@@ -1,13 +1,12 @@
 (function ($) {
     "use strict";
 
-    //admin data table
     $(document).ready(function () {
         var searchable = [];
         var selectable = [];
 
-        var dTable = $("#admin_table").DataTable({
-            order: [0, "asc"],
+        var dTable = $("#member_plan_table").DataTable({
+            order: [3, "asc"],
             lengthMenu: [
                 [10, 25, 50, 100, -1],
                 [10, 25, 50, 100, "All"],
@@ -26,13 +25,18 @@
             pagingType: "full_numbers",
             dom: "<'row'<'col-sm-2'l><'col-sm-7 text-center'B><'col-sm-3'f>>tipr",
             ajax: {
-                url: "admin/get-list",
+                url: "member-plan/get-list",
                 type: "get",
             },
             columns: [
                 { data: "name", name: "name" },
-                { data: "email", name: "email", orderable: false },
-                { data: "permissions", name: "permissions", orderable: false },
+                { data: "description", name: "description", orderable: false },
+                {
+                    data: "price_monthly",
+                    name: "price_monthly",
+                    orderable: false,
+                },
+                { data: "duration", name: "duration"},
                 { data: "status", name: "status", orderable: false },
                 //only those have manage_user permission will get access
                 {

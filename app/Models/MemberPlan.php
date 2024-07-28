@@ -18,8 +18,8 @@ class MemberPlan extends Model
     ];
 
     protected $casts = [
-        'deleted_at'        => 'datetime:Y/m/d H:m',
-        'created_at'        => 'datetime:Y/m/d H:m',
-        'updated_at'        => 'datetime:Y/m/d H:m'
+        'deleted_at'        => 'datetime:d/m/Y H:m',
+        'created_at'        => 'datetime:d/m/Y H:m',
+        'updated_at'        => 'datetime:d/m/Y H:m'
     ];
 }

@@ -16,6 +16,13 @@ class MemberPlanTableSeeder extends Seeder
     {
         $data = [
             [
+                'name'          => 'Free',
+                'description'   => 'Free Plan',
+                'price_monthly' => 0,
+                'duration'      => 0,
+                'is_active'     => 1,
+            ],
+            [
                 'name'          => '1 Month',
                 'description'   => 'Basic Plan',
                 'price_monthly' => 230000,

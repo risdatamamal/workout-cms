@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Helpers\ResponseFormatter;
 use App\Http\Controllers\Controller;
+use App\Models\Member;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
@@ -16,8 +17,8 @@ class AuthController extends Controller
     {
         try {
             $validData = Validator::make($request->all(), [
-                'email' => 'required|email|string',
-                'password' => 'required|string|min:8'
+                'email' => ['required', 'string', 'email', 'max:255'],
+                'password' => ['required', 'string', 'min:8']
             ]);
 
             if ($validData->fails()) {
@@ -42,7 +43,8 @@ class AuthController extends Controller
                 return ResponseFormatter::success([
                     'user'         => $user,
                     'roles'        => $roles,
-                    'permission'   => $permission,
+                    // 'permission'   => $permission,
+                    'token_type'   => 'Bearer',
                     'access_token' => $accessToken
                 ], 'Authenticated');
             } else {
@@ -60,6 +62,57 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
+        try {
+            $request->validate([
+                'name'          => ['required', 'string', 'max:255'],
+                'email'         => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                'password'      => ['required', 'string', 'min:8'],
+                'phone_number'  => ['required', 'string', 'max:255'],
+                'role'          => ['required']
+            ]);
+
+            User::create([
+                'name'         => $request->name,
+                'email'        => $request->email,
+                'password'     => Hash::make($request->password),
+                'phone_number' => $request->phone_number,
+                // 'province_id'  => $request->province_id == 0 ? null : $request->province_id,
+                // 'regency_id'   => $request->regency_id == 0 ? null : $request->regency_id
+            ]);
+
+            $user = User::where('email', $request->email)->first();
+
+            $memberCustomer = Member::create([
+                'user_id'        => $user->id,
+                'member_plan_id' => 0,
+                'is_active'      => 1
+            ]);
+
+            $customer = Member::create([
+                'user_id'   => $user->id,
+            ]);
+
+            $user->syncRoles('Customer');
+
+            if ($user && $memberCustomer && $customer) {
+                $accessToken = $user->createToken('authToken')->plainTextToken;
+
+                return ResponseFormatter::success([
+                    'user' => $user,
+                    'token_type' => 'Bearer',
+                    'access_token' => $accessToken,
+                ]);
+            } else {
+                return ResponseFormatter::error([
+                    'message' => 'Register Customer Failed'
+                ], 'Registration Failed', 500);
+            }
+        } catch (Exception $error) {
+            return ResponseFormatter::error([
+                'message' => 'Something went wrong',
+                'error'   => $error
+            ], 'Registration Failed', 500);
+        }
     }
 
     public function profile(Request $request)

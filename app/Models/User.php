@@ -13,17 +13,17 @@ class User extends Authenticatable
     use HasApiTokens, Notifiable, HasRoles;
 
     protected $fillable = [
-        'name', 'email', 'password', 'province_id', 'regency_id'
+        'name', 'email', 'password', 'phone_number', 'province_id', 'regency_id'
     ];
 
     protected $hidden = [
-        'password', 'remember_token', 'roles', 'permissions'
+        'password', 'remember_token', 'email_verified_at', 'roles', 'permissions'
     ];
 
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'created_at'        => 'datetime:Y/m/d H:m',
-        'updated_at'        => 'datetime:Y/m/d H:m'
+        'created_at'        => 'datetime:d/m/Y H:m',
+        'updated_at'        => 'datetime:d/m/Y H:m'
     ];
 
     public function get_roles(){

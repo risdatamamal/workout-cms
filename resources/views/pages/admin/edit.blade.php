@@ -14,8 +14,8 @@
                     <div class="page-header-title">
                         <i class="ik ik-user-plus bg-success"></i>
                         <div class="d-inline">
-                            <h5>{{ __('Edit User') }}</h5>
-                            <span>{{ __('Create new user, assign roles & permissions') }}</span>
+                            <h5>{{ __('Edit Admin') }}</h5>
+                            <span>{{ __('Create new admin, assign roles & permissions') }}</span>
                         </div>
                     </div>
                 </div>
@@ -26,7 +26,7 @@
                                 <a href="{{ url('/') }}"><i class="ik ik-home"></i></a>
                             </li>
                             <li class="breadcrumb-item">
-                                <a href="{{ url('users') }}">{{ __('User') }}</a>
+                                <a href="{{ url('admin') }}">{{ __('Admin') }}</a>
                             </li>
                             <li class="breadcrumb-item">
                                 {{ clean($user->name, 'titles') }}
@@ -46,17 +46,17 @@
                     <div class="card-header">
                         <div class="row align-items-center">
                             <div class="col-lg-5">
-                                <a href="{{ url('users') }}" type="button" class="btn btn-light">
+                                <a href="{{ url('admin') }}" type="button" class="btn btn-light">
                                     <i class="ik ik-arrow-left"></i>{{ __('Back') }}
                                 </a>
                             </div>
                             <div class="col-lg-7">
-                                <h3>{{ __('Edit User') }}</h3>
+                                <h3>{{ __('Edit Admin') }}</h3>
                             </div>
                         </div>
                     </div>
                     <div class="card-body">
-                        <form class="forms-sample" method="POST" action="{{ url('user/update') }}">
+                        <form class="forms-sample" method="POST" action="{{ url('admin/update') }}">
                             @csrf
                             <input type="hidden" name="id" value="{{ $user->id }}">
                             <div class="row">

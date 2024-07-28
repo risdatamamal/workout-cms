@@ -16,8 +16,7 @@ class CreateMembersTables extends Migration
         Schema::create('members', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('member_plan_id')->constrained('member_plans');
-            $table->integer('is_active')->default(0);
+            $table->foreignId('member_plan_id')->constrained('member_plans')->default(1);
             $table->date('enrolled_date')->nullable();
             $table->date('expired_date')->nullable();
             $table->timestamps();

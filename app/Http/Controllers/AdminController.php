@@ -45,8 +45,19 @@ class AdminController extends Controller
 
                 return $badges;
             })
+            ->addColumn('status', function ($data) {
+                $userActive = $data->is_active;
+                $badges = '';
+                if ($userActive == 1) {
+                    $badges .= '<span class="badge badge-success m-1">Active</span>';
+                } else {
+                    $badges .= '<span class="badge badge-danger m-1">Inactive</span>';
+                }
+
+                return $badges;
+            })
             ->addColumn('action', function ($data) {
-                if (Auth::user()->id == $data->id) {
+                if (Auth::user()->id != $data->id) {
                     return '';
                 }
                 if (Auth::user()->can('manage_user')) {
@@ -58,7 +69,130 @@ class AdminController extends Controller
                     return '';
                 }
             })
-            ->rawColumns(['permissions', 'action'])
+            ->rawColumns(['permissions', 'status', 'action'])
             ->make(true);
+    }
+
+    public function create()
+    {
+        try {
+            $provinces = Province::all();
+            $roles     = Role::where('name', 'Admin')->pluck('name', 'id');
+
+            return view('pages.admin.create', compact('roles', 'provinces'));
+        } catch (\Exception $e) {
+            $bug = $e->getMessage();
+            return redirect()->back()->with('error', $bug);
+        }
+    }
+
+    public function store(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name'     => 'required | string ',
+            'email'    => 'required | email | unique:users',
+            'password' => 'required | confirmed',
+            'role'     => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withInput()->with('error', $validator->messages()->first());
+        }
+        try {
+            $user = User::create([
+                'name'          => $request->name,
+                'email'         => $request->email,
+                'password'      => Hash::make($request->password),
+                'province_id'   => $request->province_id == 0 ? null : $request->province_id,
+                'regency_id'    => $request->regency_id == 0 ? null : $request->regency_id
+            ]);
+
+            $user->syncRoles($request->role);
+
+            if ($user) {
+                return redirect('admin')->with('success', 'New admin created!');
+            } else {
+                return redirect()->back()->with('error', 'Failed to create new admin! Try again.');
+            }
+        } catch (\Exception $e) {
+            $bug = $e->getMessage();
+            return redirect()->back()->with('error', $bug);
+        }
+    }
+
+    public function edit($id)
+    {
+        try {
+            $user  = User::with('roles', 'permissions')->find($id);
+
+            if ($user) {
+                $user_role = $user->roles->first();
+                $provinces = Province::all();
+                $roles     = Role::where('name', 'Admin')->pluck('name', 'id');
+
+                return view('pages.admin.edit', compact('user', 'user_role', 'provinces', 'roles'));
+            } else {
+                return redirect('admin')->with('error', 'Admin not found');
+            }
+        } catch (\Exception $e) {
+            $bug = $e->getMessage();
+            return redirect()->back()->with('error', $bug);
+        }
+    }
+
+    public function update(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'id'       => 'required',
+            'name'     => 'required | string ',
+            'email'    => 'required | email',
+            'role'     => 'required'
+        ]);
+
+        if (isset($request->password)) {
+            $validator = Validator::make($request->all(), [
+                'password' => 'required | confirmed'
+            ]);
+        }
+
+        if ($validator->fails()) {
+            return redirect()->back()->withInput()->with('error', $validator->messages()->first());
+        }
+
+        try {
+            $user = User::find($request->id);
+
+            $user->update([
+                'name'          => $request->name,
+                'email'         => $request->email,
+                'province_id'   => $request->province_id == 0 ? null : $request->province_id,
+                'regency_id'    => $request->regency_id == 0 ? null : $request->regency_id
+            ]);
+
+            if (isset($request->password)) {
+                $user->update([
+                    'password' => Hash::make($request->password)
+                ]);
+            }
+
+            $user->syncRoles($request->role);
+
+            return redirect('admin')->with('success', 'Admin information updated succesfully!');
+        } catch (\Exception $e) {
+            $bug = $e->getMessage();
+            return redirect()->back()->with('error', $bug);
+        }
+    }
+
+    public function delete($id)
+    {
+        $user = User::find($id);
+
+        if ($user) {
+            $user->delete();
+            return redirect('admin')->with('success', 'Admin removed!');
+        } else {
+            return redirect('admin')->with('error', 'Admin not found');
+        }
     }
 }

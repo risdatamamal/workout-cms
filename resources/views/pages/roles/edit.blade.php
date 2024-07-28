@@ -7,7 +7,7 @@
             <div class="row align-items-end">
                 <div class="col-lg-8">
                     <div class="page-header-title">
-                        <i class="ik ik-award bg-blue"></i>
+                        <i class="ik ik-award bg-success"></i>
                         <div class="d-inline">
                             <h5>{{ __('Edit Role') }}</h5>
                             <span>{{ __('Edit role & associate permissions') }}</span>
@@ -85,7 +85,7 @@
 
                                     <div class="form-group">
                                         <button type="submit"
-                                            class="btn btn-primary btn-rounded">{{ __('Update') }}</button>
+                                            class="btn btn-success btn-rounded">{{ __('Update') }}</button>
                                     </div>
                                 </div>
                             </div>

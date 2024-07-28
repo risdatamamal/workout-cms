@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('title', $user->name)
+@section('title', 'Add Customer')
 @section('content')
     <!-- push external head elements to head -->
     @push('head')
@@ -14,8 +14,8 @@
                     <div class="page-header-title">
                         <i class="ik ik-user-plus bg-success"></i>
                         <div class="d-inline">
-                            <h5>{{ __('Edit User') }}</h5>
-                            <span>{{ __('Create new user, assign roles & permissions') }}</span>
+                            <h5>{{ __('Add Customer') }}</h5>
+                            <span>{{ __('Create new customer, assign roles & permissions') }}</span>
                         </div>
                     </div>
                 </div>
@@ -23,15 +23,11 @@
                     <nav class="breadcrumb-container" aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
-                                <a href="{{ url('/') }}"><i class="ik ik-home"></i></a>
+                                <a href="{{ url('dashboard') }}"><i class="ik ik-home"></i></a>
                             </li>
                             <li class="breadcrumb-item">
-                                <a href="{{ url('users') }}">{{ __('User') }}</a>
+                                <a href="#">{{ __('Add Customer') }}</a>
                             </li>
-                            <li class="breadcrumb-item">
-                                {{ clean($user->name, 'titles') }}
-                            </li>
-
                         </ol>
                     </nav>
                 </div>
@@ -42,31 +38,29 @@
             @include('includes.message')
             <!-- end message area-->
             <div class="col-md-12">
-                <div class="card">
+                <div class="card ">
                     <div class="card-header">
                         <div class="row align-items-center">
                             <div class="col-lg-5">
-                                <a href="{{ url('users') }}" type="button" class="btn btn-light">
+                                <a href="{{ url('customer') }}" type="button" class="btn btn-light">
                                     <i class="ik ik-arrow-left"></i>{{ __('Back') }}
                                 </a>
                             </div>
                             <div class="col-lg-7">
-                                <h3>{{ __('Edit User') }}</h3>
+                                <h3>{{ __('Add Customer') }}</h3>
                             </div>
                         </div>
                     </div>
                     <div class="card-body">
-                        <form class="forms-sample" method="POST" action="{{ url('user/update') }}">
+                        <form class="forms-sample" method="POST" action="{{ route('store-customer') }}">
                             @csrf
-                            <input type="hidden" name="id" value="{{ $user->id }}">
                             <div class="row">
                                 <div class="col-sm-6">
-
                                     <div class="form-group">
                                         <label for="name">{{ __('Name') }}<span class="text-red">*</span></label>
                                         <input id="name" type="text"
                                             class="form-control @error('name') is-invalid @enderror" name="name"
-                                            value="{{ clean($user->name, 'name') }}" required>
+                                            value="{{ old('name') }}" placeholder="Enter name" required>
                                         <div class="help-block with-errors"></div>
 
                                         @error('name')
@@ -79,7 +73,7 @@
                                         <label for="email">{{ __('Email') }}<span class="text-red">*</span></label>
                                         <input id="email" type="email"
                                             class="form-control @error('email') is-invalid @enderror" name="email"
-                                            value="{{ clean($user->email, 'email') }}" required>
+                                            value="{{ old('email') }}" placeholder="Enter email address" required>
                                         <div class="help-block with-errors"></div>
 
                                         @error('email')
@@ -89,10 +83,23 @@
                                         @enderror
                                     </div>
                                     <div class="form-group">
-                                        <label for="password">{{ __('Password') }}</label>
+                                        <label for="phone_number">{{ __('Phone Number') }}<span class="text-red">*</span></label>
+                                        <input id="phone_number" type="number"
+                                            class="form-control @error('phone_number') is-invalid @enderror" name="phone_number"
+                                            value="{{ old('phone_number') }}" placeholder="Enter phone number" required>
+                                        <div class="help-block with-errors"></div>
+
+                                        @error('phone_number')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="password">{{ __('Password') }}<span class="text-red">*</span></label>
                                         <input id="password" type="password"
                                             class="form-control @error('password') is-invalid @enderror" name="password"
-                                            placeholder="Enter password">
+                                            placeholder="Enter password" required>
                                         <div class="help-block with-errors"></div>
 
                                         @error('password')
@@ -102,11 +109,13 @@
                                         @enderror
                                     </div>
                                     <div class="form-group">
-                                        <label for="password-confirm">{{ __('Confirm Password') }}</label>
+                                        <label for="password-confirm">{{ __('Confirm Password') }}<span
+                                                class="text-red">*</span></label>
                                         <input id="password-confirm" type="password" class="form-control"
-                                            name="password_confirmation" placeholder="Retype password">
+                                            name="password_confirmation" placeholder="Retype password" required>
                                         <div class="help-block with-errors"></div>
                                     </div>
+
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -114,29 +123,20 @@
                                         <select class="form-control select2" name="province_id" id="province_id">
                                             <option value="0">Select Province</option>
                                             @foreach ($provinces as $province)
-                                                @if ($user->province_id == $province->id)
-                                                    <option value="{{ $province->id }}" selected>{{ $province->name }}
-                                                    </option>
-                                                @else
-                                                    <option value="{{ $province->id }}">{{ $province->name }}</option>
-                                                @endif
+                                                <option value="{{ $province->id }}">{{ $province->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
                                     <div class="form-group">
                                         <label for="regency_id">{{ __('Assign Regency') }}</label>
                                         <select class="form-control select2" name="regency_id" id="regency_id">
-                                            @if ($user->regency_id)
-                                                <option value="{{ $user->regency_id }}">{{ $user->regency->name }}</option>
-                                            @else
-                                                <option>Select Regency</option>
-                                            @endif
+                                            <option value="0">Select Regency</option>
                                         </select>
                                     </div>
                                     <div class="form-group">
                                         <label for="role">{{ __('Assign Role') }}<span
                                                 class="text-red">*</span></label>
-                                        {!! Form::select('role', $roles, $user_role->id ?? '', [
+                                        {!! Form::select('role', $roles, null, [
                                             'class' => 'form-control select2',
                                             'placeholder' => 'Select Role',
                                             'id' => 'role',
@@ -145,13 +145,8 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="role">{{ __('Permissions') }}</label>
-                                        <div id="permission" class="form-group">
-                                            @foreach ($user->getAllPermissions() as $key => $permission)
-                                                <span class="badge badge-dark m-1">
-                                                    <!-- clean unescaped data is to avoid potential XSS risk -->
-                                                    {{ clean($permission->name, 'titles') }}
-                                                </span>
-                                            @endforeach
+                                        <div id="permission" class="form-group" style="border-left: 2px solid #d1d1d1;">
+                                            <span class="badge text-red m-1">Select role first</span>
                                         </div>
                                         <input type="hidden" id="token" name="token"
                                             value="{{ csrf_token() }}">
@@ -159,8 +154,7 @@
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <button type="submit"
-                                            class="btn btn-success form-control-right">{{ __('Update') }}</button>
+                                        <button type="submit" class="btn btn-success">{{ __('Submit') }}</button>
                                     </div>
                                 </div>
                             </div>

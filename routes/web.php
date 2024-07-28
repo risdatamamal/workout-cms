@@ -6,12 +6,19 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\ClassController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MemberPlanController;
+use App\Http\Controllers\MembershipController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RolesController;
 use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\ReminderController;
+use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\TrainerController;
+use App\Http\Controllers\TransactionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -96,6 +103,38 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::post('/customer/update', [CustomerController::class, 'update']);
     Route::get('/customer/delete/{id}', [CustomerController::class, 'delete']);
 
+    // Member Plans
+    Route::get('/member-plan', [MemberPlanController::class, 'index']);
+    Route::get('/member-plan/get-list', [MemberPlanController::class, 'getMemberPlanList']);
+    Route::get('/member-plan/create', [MemberPlanController::class, 'create']);
+    Route::post('/member-plan/create', [MemberPlanController::class, 'store'])->name('store-member-plan');
+    Route::get('/member-plan/edit/{id}', [MemberPlanController::class, 'edit']);
+    Route::post('/member-plan/update', [MemberPlanController::class, 'update']);
+    Route::get('/member-plan/delete/{id}', [MemberPlanController::class, 'delete']);
+
+    // Profile
+    Route::get('/profile', function () {
+        return view('pages.profile');
+    });
+
+    // Class
+    Route::get('/class', [ClassController::class, 'index']);
+
+    // Schedule
+    Route::get('/schedule', [ScheduleController::class, 'index']);
+
+    // Reminder
+    Route::get('/reminder', [ReminderController::class, 'index']);
+
+    // Review
+    Route::get('/review', [ReviewController::class, 'index']);
+
+    // Membership
+    Route::get('/membership', [MembershipController::class, 'index']);
+
+    // Transaction
+    Route::get('/transaction', [TransactionController::class, 'index']);
+
     // Permission examples
     Route::get('/permission-example', function () {
         return view('pages.permissions.example');
@@ -153,9 +192,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/navbar', function () {
         return view('pages.navbar');
     });
-    Route::get('/profile', function () {
-        return view('pages.profile');
-    });
+
     Route::get('/project', function () {
         return view('pages.project');
     });

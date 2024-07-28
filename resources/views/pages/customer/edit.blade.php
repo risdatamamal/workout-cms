@@ -14,8 +14,8 @@
                     <div class="page-header-title">
                         <i class="ik ik-user-plus bg-success"></i>
                         <div class="d-inline">
-                            <h5>{{ __('Edit User') }}</h5>
-                            <span>{{ __('Create new user, assign roles & permissions') }}</span>
+                            <h5>{{ __('Edit Customer') }}</h5>
+                            <span>{{ __('Create new customer, assign roles & permissions') }}</span>
                         </div>
                     </div>
                 </div>
@@ -26,7 +26,7 @@
                                 <a href="{{ url('/') }}"><i class="ik ik-home"></i></a>
                             </li>
                             <li class="breadcrumb-item">
-                                <a href="{{ url('users') }}">{{ __('User') }}</a>
+                                <a href="{{ url('customer') }}">{{ __('Customer') }}</a>
                             </li>
                             <li class="breadcrumb-item">
                                 {{ clean($user->name, 'titles') }}
@@ -46,27 +46,26 @@
                     <div class="card-header">
                         <div class="row align-items-center">
                             <div class="col-lg-5">
-                                <a href="{{ url('users') }}" type="button" class="btn btn-light">
+                                <a href="{{ url('customer') }}" type="button" class="btn btn-light">
                                     <i class="ik ik-arrow-left"></i>{{ __('Back') }}
                                 </a>
                             </div>
                             <div class="col-lg-7">
-                                <h3>{{ __('Edit User') }}</h3>
+                                <h3>{{ __('Edit Customer') }}</h3>
                             </div>
                         </div>
                     </div>
                     <div class="card-body">
-                        <form class="forms-sample" method="POST" action="{{ url('user/update') }}">
+                        <form class="forms-sample" method="POST" action="{{ url('customer/update') }}">
                             @csrf
                             <input type="hidden" name="id" value="{{ $user->id }}">
                             <div class="row">
                                 <div class="col-sm-6">
-
                                     <div class="form-group">
                                         <label for="name">{{ __('Name') }}<span class="text-red">*</span></label>
                                         <input id="name" type="text"
                                             class="form-control @error('name') is-invalid @enderror" name="name"
-                                            value="{{ clean($user->name, 'name') }}" required>
+                                            value="{{ clean($user->name, 'name') }}" placeholder="Enter name" required>
                                         <div class="help-block with-errors"></div>
 
                                         @error('name')
@@ -79,10 +78,23 @@
                                         <label for="email">{{ __('Email') }}<span class="text-red">*</span></label>
                                         <input id="email" type="email"
                                             class="form-control @error('email') is-invalid @enderror" name="email"
-                                            value="{{ clean($user->email, 'email') }}" required>
+                                            value="{{ clean($user->email, 'email') }}" placeholder="Enter email" required>
                                         <div class="help-block with-errors"></div>
 
                                         @error('email')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="phone_number">{{ __('Phone Number') }}<span class="text-red">*</span></label>
+                                        <input id="phone_number" type="number"
+                                            class="form-control @error('phone_number') is-invalid @enderror" name="phone_number"
+                                            value="{{ clean($user->phone_number, 'phone_number') }}" placeholder="Enter phone number" required>
+                                        <div class="help-block with-errors"></div>
+
+                                        @error('phone_number')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>

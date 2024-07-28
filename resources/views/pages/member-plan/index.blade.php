@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('title', 'Trainer')
+@section('title', 'Member Plan')
 @section('content')
     <!-- push external head elements to head -->
     @push('head')
@@ -13,8 +13,8 @@
                     <div class="page-header-title">
                         <i class="ik ik-users bg-success"></i>
                         <div class="d-inline">
-                            <h5>{{ __('Trainer') }}</h5>
-                            <span>{{ __('List of trainer') }}</span>
+                            <h5>{{ __('Member Plan') }}</h5>
+                            <span>{{ __('List of member plan') }}</span>
                         </div>
                     </div>
                 </div>
@@ -25,7 +25,7 @@
                                 <a href="{{ route('dashboard') }}"><i class="ik ik-home"></i></a>
                             </li>
                             <li class="breadcrumb-item">
-                                <a href="#">{{ __('Trainer') }}</a>
+                                <a href="#">{{ __('Member Plan') }}</a>
                             </li>
                         </ol>
                     </nav>
@@ -41,24 +41,22 @@
                     <div class="card-header">
                         <div class="row align-items-center">
                             <div class="col-lg-8">
-                                <h3>{{ __('Trainer') }}</h3>
+                                <h3>{{ __('Member Plan') }}</h3>
                             </div>
                             <div class="col-lg-4">
-                                <a href="{{ url('trainer/create') }}" type="button" class="btn btn-light"><i
-                                        class="ik ik-plus"></i>{{ __('Add Trainer') }}</a>
+                                <a href="{{ url('member-plan/create') }}" type="button" class="btn btn-light"><i
+                                        class="ik ik-plus"></i>{{ __('Add Member Plan') }}</a>
                             </div>
                         </div>
                     </div>
                     <div class="card-body">
-                        <table id="trainer_table" class="table">
+                        <table id="member_plan_table" class="table">
                             <thead>
                                 <tr>
                                     <th>{{ __('Name') }}</th>
-                                    <th>{{ __('Email') }}</th>
-                                    <th>{{ __('Contract') }}</th>
-                                    <th>{{ __('Experience') }}</th>
-                                    <th>{{ __('Speciality') }}</th>
-                                    <th>{{ __('Certification') }}</th>
+                                    <th>{{ __('Description') }}</th>
+                                    <th>{{ __('Price Monthly') }}</th>
+                                    <th>{{ __('Duration') }}</th>
                                     <th>{{ __('Status') }}</th>
                                     <th>{{ __('Action') }}</th>
                                 </tr>
@@ -75,7 +73,7 @@
     @push('script')
         <script src="{{ asset('plugins/DataTables/datatables.min.js') }}"></script>
         <script src="{{ asset('plugins/select2/dist/js/select2.min.js') }}"></script>
-        <!--server side trainer table script-->
-        <script src="{{ asset('js/trainer.js') }}"></script>
+        <!--server side member plan table script-->
+        <script src="{{ asset('js/member-plan.js') }}"></script>
     @endpush
 @endsection

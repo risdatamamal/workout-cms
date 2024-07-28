@@ -25,23 +25,23 @@
                 </div>
                 <div class="nav-lavel">{{ __('Workout') }} </div>
                 <div class="nav-item {{ $segment1 == 'class' ? 'active' : '' }}">
-                    <a href="javascript:void(0)"><i class="ik ik-check-circle"></i><span>{{ __('Class') }}</span> </a>
+                    <a href="{{ url('class') }}"><i class="ik ik-check-circle"></i><span>{{ __('Class') }}</span> </a>
                 </div>
                 <div class="nav-item {{ $segment1 == 'schedule' ? 'active' : '' }}">
-                    <a href="javascript:void(0)"><i class="ik ik-calendar"></i><span>{{ __('Schedule') }}</span> </a>
+                    <a href="{{ url('schedule') }}"><i class="ik ik-calendar"></i><span>{{ __('Schedule') }}</span> </a>
                 </div>
-                <div class="nav-item {{ $segment1 == 'reminder' ? 'active' : '' }}">
-                    <a href="javascript:void(0)"><i class="ik ik-clock"></i><span>{{ __('Reminder') }}</span> </a>
-                </div>
+                {{-- <div class="nav-item {{ $segment1 == 'reminder' ? 'active' : '' }}">
+                    <a href="{{ url('reminder') }}"><i class="ik ik-clock"></i><span>{{ __('Reminder') }}</span> </a>
+                </div> --}}
                 <div class="nav-item {{ $segment1 == 'review' ? 'active' : '' }}">
-                    <a href="javascript:void(0)"><i class="ik ik-star"></i><span>{{ __('Review') }}</span> </a>
+                    <a href="{{ url('review') }}"><i class="ik ik-star"></i><span>{{ __('Review') }}</span> </a>
                 </div>
                 <div class="nav-lavel">{{ __('Report') }} </div>
                 <div class="nav-item {{ $segment1 == 'membership' ? 'active' : '' }}">
-                    <a href="javascript:void(0)"><i class="ik ik-users"></i><span>{{ __('Membership') }}</span> </a>
+                    <a href="{{ url('membership') }}"><i class="ik ik-users"></i><span>{{ __('Membership') }}</span> </a>
                 </div>
                 <div class="nav-item {{ $segment1 == 'transaction' ? 'active' : '' }}">
-                    <a href="javascript:void(0)"><i class="ik ik-inbox"></i><span>{{ __('Transaction') }}</span> </a>
+                    <a href="{{ url('transaction') }}"><i class="ik ik-inbox"></i><span>{{ __('Transaction') }}</span> </a>
                 </div>
                 <div class="nav-lavel">{{ __('Master') }} </div>
                 <div
@@ -86,13 +86,13 @@
                                 </div>
                             </div>
                         @endcan
-                        <a href="javascript:void(0)"
+                        <a href="{{ url('member-plan') }}"
                             class="menu-item {{ $segment1 == 'member-plan' ? 'active' : '' }}">{{ __('Member Plan') }}</a>
-                        <a href="javascript:void(0)"
-                            class="menu-item {{ $segment1 == 'speciality' ? 'active' : '' }}">{{ __('Speciality') }}</a>
+                        {{-- <a href="javascript:void(0)"
+                            class="menu-item {{ $segment1 == 'speciality' ? 'active' : '' }}">{{ __('Speciality') }}</a> --}}
                     </div>
                 </div>
-                <div class="nav-lavel">{{ __('Documentation') }} </div>
+                {{-- <div class="nav-lavel">{{ __('Documentation') }} </div>
                 <div class="nav-item {{ $segment1 == 'rest-api' ? 'active' : '' }}">
                     <a href="{{ url('rest-api') }}"><i class="ik ik-cloud"></i><span>{{ __('REST API') }}</span> <span
                             class=" badge badge-success badge-right">{{ __('New') }}</span></a>
@@ -263,7 +263,7 @@
                 <div class="nav-item">
                     <a href="javascript:void(0)" class="disabled"><i
                             class="ik ik-slash"></i><span>{{ __('Disabled Menu') }}</span></a>
-                </div>
+                </div> --}}
         </div>
     </div>
 </div>

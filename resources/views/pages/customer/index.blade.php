@@ -56,8 +56,9 @@
                                 <tr>
                                     <th>{{ __('Name') }}</th>
                                     <th>{{ __('Email') }}</th>
+                                    <th>{{ __('Phone Number') }}</th>
                                     <th>{{ __('Membership') }}</th>
-                                    <th>{{ __('Permissions') }}</th>
+                                    <th>{{ __('Status') }}</th>
                                     <th>{{ __('Action') }}</th>
                                 </tr>
                             </thead>

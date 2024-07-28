@@ -32,8 +32,13 @@
             columns: [
                 { data: "name", name: "name" },
                 { data: "email", name: "email", orderable: false },
+                {
+                    data: "phone_number",
+                    name: "phone_number",
+                    orderable: false,
+                },
                 { data: "membership", name: "membership", orderable: false },
-                { data: "permissions", name: "permissions", orderable: false },
+                { data: "status", name: "status", orderable: false },
                 //only those have manage_user permission will get access
                 {
                     data: "action",

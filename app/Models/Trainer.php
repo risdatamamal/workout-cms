@@ -23,8 +23,8 @@ class Trainer extends Model
         'speciality'      => 'array',
         'certification'   => 'array',
         'contracted_at'   => 'date',
-        'created_at'      => 'datetime:Y/m/d H:m',
-        'updated_at'      => 'datetime:Y/m/d H:m'
+        'created_at'      => 'datetime:d/m/Y H:m',
+        'updated_at'      => 'datetime:d/m/Y H:m'
     ];
 
     public function user()

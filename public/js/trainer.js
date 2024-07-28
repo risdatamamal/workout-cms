@@ -32,7 +32,6 @@
             columns: [
                 { data: "name", name: "name" },
                 { data: "email", name: "email", orderable: false },
-                { data: "membership", name: "membership", orderable: false },
                 { data: "contract", name: "contract", orderable: false },
                 { data: "experience", name: "experience", orderable: false },
                 { data: "speciality", name: "speciality", orderable: false },
@@ -41,6 +40,7 @@
                     name: "certification",
                     orderable: false,
                 },
+                { data: "status", name: "status", orderable: false },
                 //only those have manage_trainer permission will get access
                 {
                     data: "action",
