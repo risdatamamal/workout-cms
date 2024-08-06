@@ -44,7 +44,7 @@
                                 <h3>{{ __('Class') }}</h3>
                             </div>
                             <div class="col-lg-4">
-                                <a href="{{ url('member-plan/create') }}" type="button" class="btn btn-light"><i
+                                <a href="{{ url('class/create') }}" type="button" class="btn btn-light"><i
                                         class="ik ik-plus"></i>{{ __('Add Class') }}</a>
                             </div>
                         </div>

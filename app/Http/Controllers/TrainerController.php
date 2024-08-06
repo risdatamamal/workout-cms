@@ -129,14 +129,15 @@ class TrainerController extends Controller
             'password'       => 'required | confirmed',
             'role'           => 'required',
             'contract'       => 'nullable | integer',
-            'experiences'    => 'nullable | json',
-            'specialities'   => 'nullable | array',
-            'certifications' => 'nullable | array'
+            // 'experiences'    => 'nullable | json',
+            // 'specialities'   => 'nullable | json',
+            // 'certifications' => 'nullable | json'
         ]);
 
         if ($validator->fails()) {
             return redirect()->back()->withInput()->with('error', $validator->messages()->first());
         }
+
         try {
             $user = User::create([
                 'name'          => $request->name,
@@ -144,56 +145,59 @@ class TrainerController extends Controller
                 'phone_number'  => $request->phone_number,
                 'password'      => Hash::make($request->password),
                 'province_id'   => $request->province_id == 0 ? null : $request->province_id,
-                'regency_id'    => $request->regency_id == 0 ? null : $request->regency_id
+                'regency_id'    => $request->regency_id == 0 ? null : $request->regency_id,
+                'is_active'     => $request->is_active
             ]);
 
             $user->syncRoles($request->role);
 
-            $experience = [];
-            $speciality = [];
-            $certification = [];
+            // $experience = json_decode($request->experiences, true);
+            // $speciality = json_decode($request->specialities, true);
+            // $certification = json_decode($request->certifications, true);
 
-            if ($request->experiences != null) {
-                $experienceData = json_decode($request->experiences, true);
-                foreach ($experienceData as $key => $value) {
-                    $experience[] = [
-                        'year' => $value['year'],
-                        'company' => $value['company'],
-                        'position' => $value['position']
-                    ];
-                }
-            }
+            // $experience = [];
+            // $speciality = [];
+            // $certification = [];
 
-            if ($request->specialities != null) {
-                $specialityData = json_decode($request->specialities, true);
-                foreach ($specialityData as $key => $value) {
-                    $speciality[] = $value['speciality_name'];
-                }
-            }
+            // if ($request->experiences != null) {
+            //     $experienceData = json_decode($request->experiences, true);
+            //     foreach ($experienceData as $key => $value) {
+            //         $experience[] = [
+            //             'year' => $value['year'],
+            //             'company' => $value['company'],
+            //             'position' => $value['position']
+            //         ];
+            //     }
+            // }
 
-            if ($request->certifications != null) {
-                $certificationData = json_decode($request->certifications, true);
-                foreach ($certificationData as $key => $value) {
-                    $certification[] = [
-                        'name' => $value['name'],
-                        'code_name' => $value['code_name']
-                    ];
-                }
-            }
+            // if ($request->specialities != null) {
+            //     $specialityData = json_decode($request->specialities, true);
+            //     foreach ($specialityData as $key => $value) {
+            //         $speciality[] = $value;
+            //     }
+            // }
+
+            // if ($request->certifications != null) {
+            //     $certificationData = json_decode($request->certifications, true);
+            //     foreach ($certificationData as $key => $value) {
+            //         $certification[] = [
+            //             'name' => $value['name'],
+            //             'code_name' => $value['code_name']
+            //         ];
+            //     }
+            // }
 
             $trainer = Trainer::create([
                 'user_id'       => $user->id,
                 'contract'      => $request->contract,
-                'experience'    => $experience,
-                'speciality'    => $speciality,
-                'certification' => $certification
+                // 'experience'    => $experience,
+                // 'speciality'    => $speciality,
+                // 'certification' => $certification
             ]);
 
-            if ($request->contract != 0) {
+            if ($request->contract != 0 || $request->contract != null) {
                 $trainer->contracted_at = now()->format('Y-m-d');
             }
-
-            dd($experience);
 
             if ($user && $trainer) {
                 return redirect('trainer')->with('success', 'New trainer created!');

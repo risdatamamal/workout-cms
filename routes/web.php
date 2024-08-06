@@ -119,6 +119,12 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     // Class
     Route::get('/class', [ClassController::class, 'index']);
+    Route::get('/class/get-list', [ClassController::class, 'getClassList']);
+    Route::get('/class/create', [ClassController::class, 'create']);
+    Route::post('/class/create', [ClassController::class, 'store'])->name('store-class');
+    Route::get('/class/edit/{id}', [ClassController::class, 'edit']);
+    Route::post('/class/update', [ClassController::class, 'update']);
+    Route::get('/class/delete/{id}', [ClassController::class, 'delete']);
 
     // Schedule
     Route::get('/schedule', [ScheduleController::class, 'index']);

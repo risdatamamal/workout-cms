@@ -70,10 +70,12 @@
                                         @enderror
                                     </div>
                                     <div class="form-group">
-                                        <label for="description">{{ __('Description') }}<span class="text-red">*</span></label>
+                                        <label for="description">{{ __('Description') }}<span
+                                                class="text-red">*</span></label>
                                         <input id="description" type="text"
-                                            class="form-control @error('description') is-invalid @enderror" name="description"
-                                            value="{{ old('description') }}" placeholder="Enter description" required>
+                                            class="form-control @error('description') is-invalid @enderror"
+                                            name="description" value="{{ old('description') }}"
+                                            placeholder="Enter description" required>
                                         <div class="help-block with-errors"></div>
 
                                         @error('description')
@@ -83,10 +85,12 @@
                                         @enderror
                                     </div>
                                     <div class="form-group">
-                                        <label for="price_monthly">{{ __('Price Monthly') }}<span class="text-red">*</span></label>
+                                        <label for="price_monthly">{{ __('Price Monthly') }}<span
+                                                class="text-red">*</span></label>
                                         <input id="price_monthly" type="number"
-                                            class="form-control @error('price_monthly') is-invalid @enderror" name="price_monthly"
-                                            value="{{ old('price_monthly') }}" placeholder="Enter price monthly" required>
+                                            class="form-control @error('price_monthly') is-invalid @enderror"
+                                            name="price_monthly" value="{{ old('price_monthly') }}"
+                                            placeholder="Enter price monthly" required>
                                         <div class="help-block with-errors"></div>
 
                                         @error('price_monthly')
@@ -110,13 +114,15 @@
                                             </span>
                                         @enderror
                                     </div>
-                                    {{-- <div class="form-group">
-                                        <label for="is_active">{{ __('Active') }}</label>
-                                        <label class="switch">
-                                            <input id="is_active" type="checkbox" name="is_active" value="1">
-                                            <span class="slider round"></span>
-                                        </label>
-                                    </div> --}}
+                                    <div class="form-group">
+                                        <label for="is_active">{{ __('Status') }}<span class="text-red">*</span></label>
+                                        <select class="form-control select2" name="is_active" id="is_active" required>
+                                            <option value="0" selected>Inactive
+                                            </option>
+                                            <option value="1">Active
+                                            </option>
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">

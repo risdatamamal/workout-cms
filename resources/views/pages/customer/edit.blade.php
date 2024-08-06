@@ -88,10 +88,12 @@
                                         @enderror
                                     </div>
                                     <div class="form-group">
-                                        <label for="phone_number">{{ __('Phone Number') }}<span class="text-red">*</span></label>
+                                        <label for="phone_number">{{ __('Phone Number') }}<span
+                                                class="text-red">*</span></label>
                                         <input id="phone_number" type="number"
-                                            class="form-control @error('phone_number') is-invalid @enderror" name="phone_number"
-                                            value="{{ clean($user->phone_number, 'phone_number') }}" placeholder="Enter phone number" required>
+                                            class="form-control @error('phone_number') is-invalid @enderror"
+                                            name="phone_number" value="{{ clean($user->phone_number, 'phone_number') }}"
+                                            placeholder="Enter phone number" required>
                                         <div class="help-block with-errors"></div>
 
                                         @error('phone_number')
@@ -139,7 +141,8 @@
                                         <label for="regency_id">{{ __('Assign Regency') }}</label>
                                         <select class="form-control select2" name="regency_id" id="regency_id">
                                             @if ($user->regency_id)
-                                                <option value="{{ $user->regency_id }}">{{ $user->regency->name }}</option>
+                                                <option value="{{ $user->regency_id }}">{{ $user->regency->name }}
+                                                </option>
                                             @else
                                                 <option>Select Regency</option>
                                             @endif
@@ -160,13 +163,21 @@
                                         <div id="permission" class="form-group">
                                             @foreach ($user->getAllPermissions() as $key => $permission)
                                                 <span class="badge badge-dark m-1">
-                                                    <!-- clean unescaped data is to avoid potential XSS risk -->
                                                     {{ clean($permission->name, 'titles') }}
                                                 </span>
                                             @endforeach
                                         </div>
                                         <input type="hidden" id="token" name="token"
                                             value="{{ csrf_token() }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="is_active">{{ __('Status') }}<span class="text-red">*</span></label>
+                                        <select class="form-control select2" name="is_active" id="is_active" required>
+                                            <option value="0" {{ $user->is_active == 0 ? 'selected' : '' }}>Inactive
+                                            </option>
+                                            <option value="1" {{ $user->is_active == 1 ? 'selected' : '' }}>Active
+                                            </option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-md-12">

@@ -26,7 +26,7 @@
                                 <a href="{{ url('dashboard') }}"><i class="ik ik-home"></i></a>
                             </li>
                             <li class="breadcrumb-item">
-                                <a href="#">{{ __('Add Trainer') }}</a>
+                                <a href="javascript:void(0)">{{ __('Add Trainer') }}</a>
                             </li>
                         </ol>
                     </nav>
@@ -117,7 +117,6 @@
                                             name="password_confirmation" placeholder="Retype password" required>
                                         <div class="help-block with-errors"></div>
                                     </div>
-
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -146,91 +145,51 @@
                                         ]) !!}
                                     </div>
                                     <div class="form-group">
-                                        <label for="role">{{ __('Permissions') }}</label>
+                                        <label for="permission">{{ __('Permissions') }}</label>
                                         <div id="permission" class="form-group" style="border-left: 2px solid #d1d1d1;">
                                             <span class="badge text-red m-1">Select role first</span>
                                         </div>
                                         <input type="hidden" id="token" name="token"
                                             value="{{ csrf_token() }}">
                                     </div>
-                                    <div class="form-group">
-                                        <label for="contract">{{ __('Contract') }}</label>
-                                        <input id="contract" type="number"
-                                            class="form-control @error('contract') is-invalid @enderror" name="contract"
-                                            value="{{ old('contract') }}" placeholder="Enter Contract" required>
-                                        <div class="help-block with-errors"></div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="contract">{{ __('Contract') }}</label>
+                                                <input id="contract" type="number"
+                                                    class="form-control @error('contract') is-invalid @enderror"
+                                                    name="contract" value="{{ old('contract') }}"
+                                                    placeholder="Enter Contract" required>
+                                                <div class="help-block with-errors"></div>
 
-                                        @error('contract')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-                                </div>
-
-                                <!-- New section for Work Experience -->
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="experience">{{ __('Work Experience') }}</label>
-                                        <div class="row">
-                                            <div class="col-md-3">
-                                                <input type="text" id="year" class="form-control"
-                                                    placeholder="Year (Example: 2001-2002)">
-                                            </div>
-                                            <div class="col-md-4">
-                                                <input type="text" id="company" class="form-control"
-                                                    placeholder="Company (Example: PT GYM Indonesia)">
-                                            </div>
-                                            <div class="col-md-4">
-                                                <input type="text" id="position" class="form-control"
-                                                    placeholder="Position (Example: Zumba Trainer)">
-                                            </div>
-                                            <div class="col-md-1">
-                                                <button type="button" class="btn btn-primary"
-                                                    onclick="addExperience()">Add</button>
+                                                @error('contract')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
                                             </div>
                                         </div>
-                                        <ul id="experienceList" class="mt-3">
-                                            <!-- Experience list will be appended here -->
-                                        </ul>
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="hidden" name="experiences" id="experiences">
-                                    </div>
-                                </div>
-
-                                <!-- New section for Speciality -->
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="speciality">{{ __('Speciality') }}</label>
-                                        <div class="row">
-                                            <div class="col-md-11">
-                                                <input type="text" id="speciality_name" class="form-control"
-                                                    placeholder="Name (Example: Zumba)">
-                                            </div>
-                                            <div class="col-md-1">
-                                                <button type="button" class="btn btn-primary"
-                                                    onclick="addSpeciality()">Add</button>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="is_active">{{ __('Status') }}<span
+                                                        class="text-red">*</span></label>
+                                                <select class="form-control select2" name="is_active" id="is_active"
+                                                    required>
+                                                    <option value="0" selected>Inactive
+                                                    </option>
+                                                    <option value="1">Active
+                                                    </option>
+                                                </select>
                                             </div>
                                         </div>
-                                        <ul id="specialityList" class="mt-3">
-                                            <!-- Speciality list will be appended here -->
-                                        </ul>
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="hidden" name="specialities" id="specialities">
                                     </div>
                                 </div>
-
-                                <!-- New section for Certification -->
-
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <button type="submit" class="btn btn-success">{{ __('Submit') }}</button>
                                     </div>
                                 </div>
                             </div>
-
                         </form>
                     </div>
                 </div>
@@ -242,69 +201,5 @@
         <script src="{{ asset('plugins/select2/dist/js/select2.min.js') }}"></script>
         <script src="{{ asset('js/get-role.js') }}"></script>
         <script src="{{ asset('js/get-regency.js') }}"></script>
-        <script>
-            let experiences = [];
-
-            function addExperience() {
-                const year = document.getElementById('year').value;
-                const company = document.getElementById('company').value;
-                const position = document.getElementById('position').value;
-
-                if (year && company && position) {
-                    experiences.push({
-                        year: year,
-                        company: company,
-                        position: position
-                    });
-
-                    // Add to experience list
-                    const experienceList = document.getElementById('experienceList');
-                    const listItem = document.createElement('li');
-                    listItem.textContent = `${year}: ${company} (${position})`;
-                    experienceList.appendChild(listItem);
-
-                    // Clear the form inputs
-                    document.getElementById('year').value = '';
-                    document.getElementById('company').value = '';
-                    document.getElementById('position').value = '';
-
-                    alert('Experience added!');
-                } else {
-                    alert('Please fill all fields');
-                }
-            }
-
-            document.getElementById('trainerForm').addEventListener('submit', function(event) {
-                event.preventDefault();
-                document.getElementById('experiences').value = JSON.stringify(experiences);
-                this.submit();
-            });
-        </script>
-        <script>
-            let specialities = [];
-
-            function addSpeciality() {
-                const speciality_name = document.getElementById('speciality_name').value;
-
-                if (speciality_name) {
-                    specialities.push({
-                        speciality_name: speciality_name
-                    });
-
-                    // Add to speciality list
-                    const specialityList = document.getElementById('specialityList');
-                    const listItem = document.createElement('li');
-                    listItem.textContent = `${speciality_name}`;
-                    specialityList.appendChild(listItem);
-
-                    // Clear the form inputs
-                    document.getElementById('speciality_name').value = '';
-
-                    alert('Speciality added!');
-                } else {
-                    alert('Please fill all fields of speciality');
-                }
-            }
-        </script>
     @endpush
 @endsection

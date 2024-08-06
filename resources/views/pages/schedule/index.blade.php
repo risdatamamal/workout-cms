@@ -53,7 +53,7 @@
                         <table id="member_plan_table" class="table">
                             <thead>
                                 <tr>
-                                    <th>{{ __('Schedule') }}</th>
+                                    <th>{{ __('Class') }}</th>
                                     <th>{{ __('Trainer') }}</th>
                                     <th>{{ __('Time') }}</th>
                                     <th>{{ __('Date') }}</th>

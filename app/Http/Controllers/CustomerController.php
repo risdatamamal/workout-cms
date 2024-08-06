@@ -101,7 +101,8 @@ class CustomerController extends Controller
                 'phone_number'  => $request->phone_number,
                 'password'      => Hash::make($request->password),
                 'province_id'   => $request->province_id == 0 ? null : $request->province_id,
-                'regency_id'    => $request->regency_id == 0 ? null : $request->regency_id
+                'regency_id'    => $request->regency_id == 0 ? null : $request->regency_id,
+                'is_active'     => $request->is_active
             ]);
 
             $user->syncRoles($request->role);
@@ -145,11 +146,11 @@ class CustomerController extends Controller
     public function update(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'id'       => 'required',
-            'name'     => 'required | string ',
-            'email'    => 'required | email',
+            'id'             => 'required',
+            'name'           => 'required | string ',
+            'email'          => 'required | email',
             'phone_number'   => 'required | string',
-            'role'     => 'required'
+            'role'           => 'required'
         ]);
 
         if (isset($request->password)) {
@@ -170,7 +171,8 @@ class CustomerController extends Controller
                 'email'         => $request->email,
                 'phone_number'  => $request->phone_number,
                 'province_id'   => $request->province_id == 0 ? null : $request->province_id,
-                'regency_id'    => $request->regency_id == 0 ? null : $request->regency_id
+                'regency_id'    => $request->regency_id == 0 ? null : $request->regency_id,
+                'is_active'     => $request->is_active
             ]);
 
             if (isset($request->password)) {

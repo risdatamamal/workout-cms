@@ -54,7 +54,7 @@ class UserController extends Controller
                 return $badges;
             })
             ->addColumn('action', function ($data) {
-                if ($data->name == 'Admin') {
+                if (Auth::user()->id != $data->id) {
                     return '';
                 }
                 if (Auth::user()->can('manage_user')) {

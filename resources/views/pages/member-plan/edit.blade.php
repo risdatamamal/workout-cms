@@ -111,13 +111,15 @@
                                             </span>
                                         @enderror
                                     </div>
-                                    {{-- <div class="form-group">
-                                        <label for="is_active">{{ __('Active') }}</label>
-                                        <label class="switch">
-                                            <input id="is_active" type="checkbox" name="is_active" value="1">
-                                            <span class="slider round"></span>
-                                        </label>
-                                    </div> --}}
+                                    <div class="form-group">
+                                        <label for="is_active">{{ __('Status') }}<span class="text-red">*</span></label>
+                                        <select class="form-control select2" name="is_active" id="is_active" required>
+                                            <option value="0" {{ $memberPlan->is_active == 0 ? 'selected' : '' }}>Inactive
+                                            </option>
+                                            <option value="1" {{ $memberPlan->is_active == 1 ? 'selected' : '' }}>Active
+                                            </option>
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">

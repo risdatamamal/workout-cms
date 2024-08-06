@@ -88,8 +88,8 @@
                         @endcan
                         <a href="{{ url('member-plan') }}"
                             class="menu-item {{ $segment1 == 'member-plan' ? 'active' : '' }}">{{ __('Member Plan') }}</a>
-                        {{-- <a href="javascript:void(0)"
-                            class="menu-item {{ $segment1 == 'speciality' ? 'active' : '' }}">{{ __('Speciality') }}</a> --}}
+                        <a href="javascript:void(0)"
+                            class="menu-item {{ $segment1 == 'speciality' ? 'active' : '' }}">{{ __('Speciality') }}</a>
                     </div>
                 </div>
                 {{-- <div class="nav-lavel">{{ __('Documentation') }} </div>

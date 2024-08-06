@@ -87,7 +87,7 @@ class MemberPlanController extends Controller
                 'description'   => $request->description,
                 'price_monthly' => $request->price_monthly,
                 'duration'      => $request->duration,
-                // 'is_active'     => $request->is_active
+                'is_active'     => $request->is_active
             ]);
 
             if ($memberPlan) {
@@ -139,7 +139,7 @@ class MemberPlanController extends Controller
                 'description'   => $request->description,
                 'price_monthly' => $request->price_monthly,
                 'duration'      => $request->duration,
-                // 'is_active'     => $request->is_active
+                'is_active'     => $request->is_active
             ]);
 
             return redirect('member-plan')->with('success', 'Member Plan information updated succesfully!');

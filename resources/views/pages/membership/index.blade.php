@@ -40,13 +40,13 @@
                 <div class="card p-3">
                     <div class="card-header">
                         <div class="row align-items-center">
-                            <div class="col-lg-8">
+                            <div class="col-lg-12">
                                 <h3>{{ __('Membership') }}</h3>
                             </div>
-                            <div class="col-lg-4">
+                            {{-- <div class="col-lg-4">
                                 <a href="{{ url('member-plan/create') }}" type="button" class="btn btn-light"><i
                                         class="ik ik-plus"></i>{{ __('Add Membership') }}</a>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                     <div class="card-body">
@@ -58,7 +58,7 @@
                                     <th>{{ __('Member Plan') }}</th>
                                     <th>{{ __('Date Enrolled') }}</th>
                                     <th>{{ __('Date Expiration') }}</th>
-                                    <th>{{ __('Action') }}</th>
+                                    {{-- <th>{{ __('Action') }}</th> --}}
                                 </tr>
                             </thead>
                             <tbody>
@@ -68,12 +68,12 @@
                                     <td>Basic Plan</td>
                                     <td>16/01/2024</td>
                                     <td>16/02/2024</td>
-                                    <td>
+                                    {{-- <td>
                                         <div class="table-actions">
                                             <a href="#"><i class="ik ik-edit-2 f-16 mr-15 text-green"></i></a>
                                             <a href="#"><i class="ik ik-trash-2 f-16 text-red"></i></a>
                                         </div>
-                                    </td>
+                                    </td> --}}
                                 </tr>
                                 <tr>
                                     <td>Helena</td>
@@ -81,12 +81,12 @@
                                     <td>Basic Plan</td>
                                     <td>16/01/2024</td>
                                     <td>16/02/2024</td>
-                                    <td>
+                                    {{-- <td>
                                         <div class="table-actions">
                                             <a href="#"><i class="ik ik-edit-2 f-16 mr-15 text-green"></i></a>
                                             <a href="#"><i class="ik ik-trash-2 f-16 text-red"></i></a>
                                         </div>
-                                    </td>
+                                    </td> --}}
                                 </tr>
                                 <tr>
                                     <td>Bryan</td>
@@ -94,12 +94,12 @@
                                     <td>Basic Plan</td>
                                     <td>16/01/2024</td>
                                     <td>16/02/2024</td>
-                                    <td>
+                                    {{-- <td>
                                         <div class="table-actions">
                                             <a href="#"><i class="ik ik-edit-2 f-16 mr-15 text-green"></i></a>
                                             <a href="#"><i class="ik ik-trash-2 f-16 text-red"></i></a>
                                         </div>
-                                    </td>
+                                    </td> --}}
                                 </tr>
                             </tbody>
                         </table>

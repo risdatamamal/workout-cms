@@ -83,10 +83,12 @@
                                         @enderror
                                     </div>
                                     <div class="form-group">
-                                        <label for="phone_number">{{ __('Phone Number') }}<span class="text-red">*</span></label>
+                                        <label for="phone_number">{{ __('Phone Number') }}<span
+                                                class="text-red">*</span></label>
                                         <input id="phone_number" type="number"
-                                            class="form-control @error('phone_number') is-invalid @enderror" name="phone_number"
-                                            value="{{ old('phone_number') }}" placeholder="Enter phone number" required>
+                                            class="form-control @error('phone_number') is-invalid @enderror"
+                                            name="phone_number" value="{{ old('phone_number') }}"
+                                            placeholder="Enter phone number" required>
                                         <div class="help-block with-errors"></div>
 
                                         @error('phone_number')
@@ -150,6 +152,15 @@
                                         </div>
                                         <input type="hidden" id="token" name="token"
                                             value="{{ csrf_token() }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="is_active">{{ __('Status') }}<span class="text-red">*</span></label>
+                                        <select class="form-control select2" name="is_active" id="is_active" required>
+                                            <option value="0" selected>Inactive
+                                            </option>
+                                            <option value="1">Active
+                                            </option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
