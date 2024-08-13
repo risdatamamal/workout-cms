@@ -17,6 +17,7 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ReminderController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ScheduleController;
+use App\Http\Controllers\SpecialityController;
 use App\Http\Controllers\TrainerController;
 use App\Http\Controllers\TransactionController;
 
@@ -140,6 +141,15 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     // Transaction
     Route::get('/transaction', [TransactionController::class, 'index']);
+
+    // Speciality
+    Route::get('/speciality', [SpecialityController::class, 'index']);
+    Route::get('/speciality/get-list', [SpecialityController::class, 'getSpecialityList']);
+    Route::get('/speciality/create', [SpecialityController::class, 'create']);
+    Route::post('/speciality/create', [SpecialityController::class, 'store'])->name('store-speciality');
+    Route::get('/speciality/edit/{id}', [SpecialityController::class, 'edit']);
+    Route::post('/speciality/update', [SpecialityController::class, 'update']);
+    Route::get('/speciality/delete/{id}', [SpecialityController::class, 'delete']);
 
     // Permission examples
     Route::get('/permission-example', function () {

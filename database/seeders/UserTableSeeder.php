@@ -7,27 +7,22 @@ use Illuminate\Database\Seeder;
 
 class UserTableSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
     public function run()
     {
         $data = [
             [
-                'name' => 'Admin',
-                'email' => 'admin@test.com',
+                'name' => 'Jonathan',
+                'email' => 'jonathan@test.com',
                 'password' => bcrypt('admin123'),
             ],
             [
-                'name' => 'Mamat',
-                'email' => 'mamat@test.com',
+                'name' => 'Clarissa',
+                'email' => 'clarissa@test.com',
                 'password' => bcrypt('admin123'),
             ],
             [
-                'name' => 'Tamam',
-                'email' => 'tamam@test.com',
+                'name' => 'Saskiya',
+                'email' => 'saskiya@test.com',
                 'password' => bcrypt('admin123'),
             ],
         ];

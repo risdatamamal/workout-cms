@@ -129,9 +129,6 @@ class TrainerController extends Controller
             'password'       => 'required | confirmed',
             'role'           => 'required',
             'contract'       => 'nullable | integer',
-            // 'experiences'    => 'nullable | json',
-            // 'specialities'   => 'nullable | json',
-            // 'certifications' => 'nullable | json'
         ]);
 
         if ($validator->fails()) {
@@ -151,48 +148,9 @@ class TrainerController extends Controller
 
             $user->syncRoles($request->role);
 
-            // $experience = json_decode($request->experiences, true);
-            // $speciality = json_decode($request->specialities, true);
-            // $certification = json_decode($request->certifications, true);
-
-            // $experience = [];
-            // $speciality = [];
-            // $certification = [];
-
-            // if ($request->experiences != null) {
-            //     $experienceData = json_decode($request->experiences, true);
-            //     foreach ($experienceData as $key => $value) {
-            //         $experience[] = [
-            //             'year' => $value['year'],
-            //             'company' => $value['company'],
-            //             'position' => $value['position']
-            //         ];
-            //     }
-            // }
-
-            // if ($request->specialities != null) {
-            //     $specialityData = json_decode($request->specialities, true);
-            //     foreach ($specialityData as $key => $value) {
-            //         $speciality[] = $value;
-            //     }
-            // }
-
-            // if ($request->certifications != null) {
-            //     $certificationData = json_decode($request->certifications, true);
-            //     foreach ($certificationData as $key => $value) {
-            //         $certification[] = [
-            //             'name' => $value['name'],
-            //             'code_name' => $value['code_name']
-            //         ];
-            //     }
-            // }
-
             $trainer = Trainer::create([
                 'user_id'       => $user->id,
                 'contract'      => $request->contract,
-                // 'experience'    => $experience,
-                // 'speciality'    => $speciality,
-                // 'certification' => $certification
             ]);
 
             if ($request->contract != 0 || $request->contract != null) {
@@ -208,5 +166,25 @@ class TrainerController extends Controller
             $bug = $e->getMessage();
             return redirect()->back()->with('error', $bug);
         }
+    }
+
+    public function edit($id)
+    {
+        try {
+            $provinces = Province::all();
+            $roles     = Role::where('name', 'Trainer')->pluck('name', 'id');
+            $user      = User::find($id);
+            $trainer   = Trainer::where('user_id', $id)->first();
+
+            return view('pages.trainer.edit', compact('roles', 'provinces', 'user', 'trainer'));
+        } catch (\Exception $e) {
+            $bug = $e->getMessage();
+            return redirect()->back()->with('error', $bug);
+        }
+    }
+
+    public function update(Request $request, $id)
+    {
+
     }
 }

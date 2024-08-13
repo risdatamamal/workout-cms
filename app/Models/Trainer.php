@@ -12,16 +12,10 @@ class Trainer extends Model
     protected $fillable = [
         'user_id',
         'contract',
-        'experience',
-        'speciality',
-        'certification',
         'contracted_at'
     ];
 
     protected $casts = [
-        'experience'      => 'array',
-        'speciality'      => 'array',
-        'certification'   => 'array',
         'contracted_at'   => 'date',
         'created_at'      => 'datetime:d/m/Y H:m',
         'updated_at'      => 'datetime:d/m/Y H:m'

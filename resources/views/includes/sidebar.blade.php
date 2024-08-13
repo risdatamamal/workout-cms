@@ -45,7 +45,7 @@
                 </div>
                 <div class="nav-lavel">{{ __('Master') }} </div>
                 <div
-                    class="nav-item {{ $segment1 == 'users' || $segment1 == 'roles' || $segment1 == 'permission' || $segment1 == 'user' || $segment1 == 'role' || $segment1 == 'admin' || $segment1 == 'trainer' || $segment1 == 'customer' || $segment1 == 'member-plan' ? 'active open' : '' }} has-sub">
+                    class="nav-item {{ $segment1 == 'users' || $segment1 == 'roles' || $segment1 == 'permission' || $segment1 == 'user' || $segment1 == 'role' || $segment1 == 'admin' || $segment1 == 'trainer' || $segment1 == 'customer' || $segment1 == 'member-plan' || $segment1 == 'speciality' ? 'active open' : '' }} has-sub">
                     <a href="javascript:void(0)"><i class="ik ik-database"></i><span>{{ __('Master Data') }}</span></a>
                     <div class="submenu-content">
                         @can('manage_user' || 'manage_role' || 'manage_permission')
@@ -88,7 +88,7 @@
                         @endcan
                         <a href="{{ url('member-plan') }}"
                             class="menu-item {{ $segment1 == 'member-plan' ? 'active' : '' }}">{{ __('Member Plan') }}</a>
-                        <a href="javascript:void(0)"
+                        <a href="{{ url('speciality') }}"
                             class="menu-item {{ $segment1 == 'speciality' ? 'active' : '' }}">{{ __('Speciality') }}</a>
                     </div>
                 </div>

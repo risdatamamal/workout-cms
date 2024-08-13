@@ -25,6 +25,8 @@ class DatabaseSeeder extends Seeder
             // ModelHasPermissionTableSeeder::class,
             TrainerTableSeeder::class,
             MemberPlanTableSeeder::class,
+            SpecialityTableSeeder::class,
+            CustomerTableSeeder::class,
         ]);
     }
 }

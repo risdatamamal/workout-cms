@@ -127,8 +127,8 @@ class AuthController extends Controller
                 return ResponseFormatter::success([
                     'user'       => $user,
                     'roles'      => $roles,
-                    'permission' => $permission,
-                ], 'Get Profile');
+                    // 'permission' => $permission,
+                ], 'Get profile success');
             } else {
                 return ResponseFormatter::error([
                     'message' => 'Unauthorized.'

@@ -142,7 +142,12 @@ class MemberPlanController extends Controller
                 'is_active'     => $request->is_active
             ]);
 
-            return redirect('member-plan')->with('success', 'Member Plan information updated succesfully!');
+            if ($memberPlan) {
+                return redirect('member-plan')->with('success', 'Member plan information updated succesfully!');
+            } else {
+                return redirect()->back()->with('error', 'Failed to update member plan information! Try again.');
+            }
+
         } catch (\Exception $e) {
             $bug = $e->getMessage();
             return redirect()->back()->with('error', $bug);
@@ -151,13 +156,18 @@ class MemberPlanController extends Controller
 
     public function delete($id)
     {
-        $memberPlan = MemberPlan::find($id);
+        try {
+            $memberPlan = MemberPlan::find($id);
 
-        if ($memberPlan) {
-            $memberPlan->delete();
-            return redirect('member-plan')->with('success', 'Member Plan removed!');
-        } else {
-            return redirect('member-plan')->with('error', 'Member Plan not found');
+            if ($memberPlan) {
+                $memberPlan->delete();
+                return redirect('member-plan')->with('success', 'Member Plan removed!');
+            } else {
+                return redirect('member-plan')->with('error', 'Member Plan not found');
+            }
+        } catch (\Exception $e) {
+            $bug = $e->getMessage();
+            return redirect()->back()->with('error', $bug);
         }
     }
 }
