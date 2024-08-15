@@ -9,6 +9,7 @@ use App\Models\Province;
 use App\Models\Regency;
 use Illuminate\Http\Request;
 use App\Helpers\ResponseFormatter;
+use App\Models\MemberPlan;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
@@ -236,14 +237,14 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         try {
-            $user = Auth::user()->token();
+            $userToken = Auth::user()->token();
 
-            if ($user) {
-                $user->revoke();
+            if ($userToken) {
+                $userToken->revoke();
 
                 return ResponseFormatter::success([
-                    'status' => 0,
-                ], 'Logged out succesfully!');
+                    'status' => 1,
+                ], 'Successfully logged out');
             } else {
                 return ResponseFormatter::error([
                     'message' => 'Unauthorized'
@@ -254,6 +255,20 @@ class AuthController extends Controller
                 'message' => 'Something went wrong',
                 'error' => $error
             ], 'Logout Failed', 500);
+        }
+    }
+
+    public function memberPlans()
+    {
+        try {
+            $memberPlan = MemberPlan::all();
+
+            return ResponseFormatter::success($memberPlan, 'Get member plan success');
+        } catch (\Exception $error) {
+            return ResponseFormatter::error([
+                'message' => 'Something went wrong',
+                'error' => $error
+            ], 'Get Member Plan Failed', 500);
         }
     }
 }
