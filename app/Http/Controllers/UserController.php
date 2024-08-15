@@ -100,6 +100,7 @@ class UserController extends Controller
         if ($validator->fails()) {
             return redirect()->back()->withInput()->with('error', $validator->messages()->first());
         }
+
         try {
             $user = User::create([
                 'name'          => $request->name,

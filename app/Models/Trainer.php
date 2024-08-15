@@ -9,6 +9,8 @@ class Trainer extends Model
 {
     use HasFactory;
 
+    protected $table = 'trainers';
+
     protected $fillable = [
         'user_id',
         'contract',

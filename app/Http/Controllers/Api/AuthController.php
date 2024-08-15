@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Helpers\ResponseFormatter;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Models\Member;
+use App\Models\Province;
+use App\Models\Regency;
 use Illuminate\Http\Request;
+use App\Helpers\ResponseFormatter;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
-use App\Models\User;
-use Auth, Exception;
+use Spatie\Permission\Models\Role;
+use Auth;
 
 class AuthController extends Controller
 {
@@ -35,6 +38,7 @@ class AuthController extends Controller
             }
 
             $user = Auth::user();
+
             if ($user) {
                 $accessToken = Auth::user()->createToken('authToken')->accessToken;
                 $roles = $user->getRoleNames();
@@ -52,7 +56,7 @@ class AuthController extends Controller
                     'message' => 'Your account can\'t to access.'
                 ], 'Authentication Failed', 500);
             }
-        } catch (Exception $error) {
+        } catch (\Exception $error) {
             return ResponseFormatter::error([
                 'message' => 'Something went wrong',
                 'error' => $error
@@ -63,55 +67,59 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         try {
-            $request->validate([
-                'name'          => ['required', 'string', 'max:255'],
-                'email'         => ['required', 'string', 'email', 'max:255', 'unique:users'],
-                'password'      => ['required', 'string', 'min:8'],
-                'phone_number'  => ['required', 'string', 'max:255'],
-                'role'          => ['required']
+            $validator = Validator::make($request->all(), [
+                'name'     => 'required | string | max:255',
+                'email'    => 'required | string | email | max:255 | unique:users',
+                'password' => 'required | string | min:8',
+                'password_confirmation' => 'required | string | min:8 | same:password',
+                'phone_number' => 'required | string | max:255',
             ]);
 
-            User::create([
+            if ($validator->fails()) {
+                return ResponseFormatter::error([
+                    'message' => 'Invalid input',
+                ], 'Registration Account Failed', 400);
+            }
+
+            $user = User::create([
                 'name'         => $request->name,
                 'email'        => $request->email,
                 'password'     => Hash::make($request->password),
                 'phone_number' => $request->phone_number,
+                'is_active'    => 1,
                 // 'province_id'  => $request->province_id == 0 ? null : $request->province_id,
                 // 'regency_id'   => $request->regency_id == 0 ? null : $request->regency_id
             ]);
 
-            $user = User::where('email', $request->email)->first();
-
-            $memberCustomer = Member::create([
-                'user_id'        => $user->id,
-                'member_plan_id' => 0,
-                'is_active'      => 1
-            ]);
+            $userToken = User::where('email', $request->email)->first();
 
             $customer = Member::create([
-                'user_id'   => $user->id,
+                'user_id' => $user->id,
+                'member_plan_id' => 1
             ]);
 
-            $user->syncRoles('Customer');
+            $user->assignRole('Customer');
 
-            if ($user && $memberCustomer && $customer) {
-                $accessToken = $user->createToken('authToken')->plainTextToken;
+            if ($user && $customer) {
+                $accessToken = $userToken->createToken('authToken')->accessToken;
+                $roles = $user->getRoleNames();
 
                 return ResponseFormatter::success([
                     'user' => $user,
+                    'roles' => $roles,
                     'token_type' => 'Bearer',
                     'access_token' => $accessToken,
-                ]);
+                ], 'Registration success');
             } else {
                 return ResponseFormatter::error([
-                    'message' => 'Register Customer Failed'
-                ], 'Registration Failed', 500);
+                    'message' => 'Registration failed'
+                ], 'Registration Account Failed', 500);
             }
-        } catch (Exception $error) {
+        } catch (\Exception $error) {
             return ResponseFormatter::error([
                 'message' => 'Something went wrong',
                 'error'   => $error
-            ], 'Registration Failed', 500);
+            ], 'Registration Account Failed', 500);
         }
     }
 
@@ -134,7 +142,7 @@ class AuthController extends Controller
                     'message' => 'Unauthorized.'
                 ], 'Authentication Failed', 500);
             }
-        } catch (Exception $error) {
+        } catch (\Exception $error) {
             return ResponseFormatter::error([
                 'message' => 'Something went wrong',
                 'error' => $error
@@ -173,7 +181,7 @@ class AuthController extends Controller
                     'message' => 'Unauthorized'
                 ], 'Authentication Failed', 500);
             }
-        } catch (Exception $error) {
+        } catch (\Exception $error) {
             return ResponseFormatter::error([
                 'message' => 'Something went wrong',
                 'error' => $error
@@ -216,7 +224,7 @@ class AuthController extends Controller
                     'message' => 'Unauthorized'
                 ], 'Authentication Failed', 500);
             }
-        } catch (Exception $error) {
+        } catch (\Exception $error) {
             return ResponseFormatter::error([
                 'message' => 'Something went wrong',
                 'error' => $error
@@ -241,7 +249,7 @@ class AuthController extends Controller
                     'message' => 'Unauthorized'
                 ], 'Authentication Failed', 500);
             }
-        } catch (Exception $error) {
+        } catch (\Exception $error) {
             return ResponseFormatter::error([
                 'message' => 'Something went wrong',
                 'error' => $error

@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\ClassController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\ExperienceTrainerController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MemberPlanController;
 use App\Http\Controllers\MembershipController;
@@ -79,7 +80,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/permission/update', [PermissionController::class, 'update']);
     Route::get('/permission/delete/{id}', [PermissionController::class, 'delete']);
 
-    // User Management
+    // Admin
     Route::get('/admin', [AdminController::class, 'index']);
     Route::get('/admin/get-list', [AdminController::class, 'getAdminList']);
     Route::get('/admin/create', [AdminController::class, 'create']);
@@ -88,6 +89,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::post('/admin/update', [AdminController::class, 'update']);
     Route::get('/admin/delete/{id}', [AdminController::class, 'delete']);
 
+    // Trainer
     Route::get('/trainer', [TrainerController::class, 'index']);
     Route::get('/trainer/get-list', [TrainerController::class, 'getTrainerList']);
     Route::get('/trainer/create', [TrainerController::class, 'create']);
@@ -96,6 +98,14 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::post('/trainer/update', [TrainerController::class, 'update']);
     Route::get('/trainer/delete/{id}', [TrainerController::class, 'delete']);
 
+    // Experience Trainer
+    Route::get('/trainer/{trainer_id}/experience', [ExperienceTrainerController::class, 'index'])->name('experience-trainer.index');
+    Route::get('/trainer/{trainer_id}/experience/get-list', [ExperienceTrainerController::class, 'getExperienceTrainerList']);
+    Route::get('/trainer/{trainer_id}/experience/create', [ExperienceTrainerController::class, 'create'])->name('experience-trainer.create');
+    Route::post('/trainer/{trainer_id}/experience/create', [ExperienceTrainerController::class, 'store'])->name('experience-trainer.store');
+    Route::get('/trainer/{trainer_id}/experience/delete/{id}', [ExperienceTrainerController::class, 'delete'])->name('experience-trainer.delete');
+
+    // Customer
     Route::get('/customer', [CustomerController::class, 'index']);
     Route::get('/customer/get-list', [CustomerController::class, 'getCustomerList']);
     Route::get('/customer/create', [CustomerController::class, 'create']);

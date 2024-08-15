@@ -108,7 +108,8 @@ class CustomerController extends Controller
             $user->syncRoles($request->role);
 
             $customer = Member::create([
-                'user_id' => $user->id
+                'user_id' => $user->id,
+                'member_plan_id' => 1
             ]);
 
             if ($user && $customer) {

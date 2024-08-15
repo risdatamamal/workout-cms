@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CertificationTrainer;
+use App\Models\ExperienceTrainer;
 use App\Models\User;
 use App\Models\Province;
 use App\Models\Regency;
+use App\Models\SpecialityTrainer;
 use App\Models\Trainer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -95,8 +98,16 @@ class TrainerController extends Controller
                     return '';
                 }
                 if (Auth::user()->can('manage_user')) {
+                    $trainer = Trainer::where('user_id', $data->id)->first();
+                    $experience = ExperienceTrainer::where('trainer_id', $trainer->id)->first();
+                    $speciality = SpecialityTrainer::where('trainer_id', $trainer->id)->first();
+                    $certification = CertificationTrainer::where('trainer_id', $trainer->id)->first();
+
                     return '<div class="table-actions">
-                                <a href="' . url('trainer/edit/' . $data->id) . '" ><i class="ik ik-edit-2 f-16 mr-15 text-green"></i></a>
+                                <a href="' . url('trainer/' . $experience->id . '/experience') . '" ><i class="ik ik-pocket f-16 mr-10 text-blue"></i></a>
+                                <a href="' . url('trainer/' . $speciality->id . '/speciality') . '" ><i class="ik ik-award f-16 mr-10 text-blue"></i></a>
+                                <a href="' . url('trainer/' . $certification->id . '/certification') . '" ><i class="ik ik-file-text f-16 mr-10 text-blue"></i></a>
+                                <a href="' . url('trainer/edit/' . $data->id) . '" ><i class="ik ik-edit-2 f-16 mr-10 text-green"></i></a>
                                 <a href="' . url('trainer/delete/' . $data->id) . '"><i class="ik ik-trash-2 f-16 text-red"></i></a>
                             </div>';
                 } else {
@@ -157,7 +168,19 @@ class TrainerController extends Controller
                 $trainer->contracted_at = now()->format('Y-m-d');
             }
 
-            if ($user && $trainer) {
+            $experience = ExperienceTrainer::create([
+                'trainer_id'    => $trainer->id
+            ]);
+
+            $speciality = SpecialityTrainer::create([
+                'trainer_id'    => $trainer->id
+            ]);
+
+            $certification = CertificationTrainer::create([
+                'trainer_id'    => $trainer->id
+            ]);
+
+            if ($user && $trainer && $experience && $speciality && $certification) {
                 return redirect('trainer')->with('success', 'New trainer created!');
             } else {
                 return redirect()->back()->with('error', 'Failed to create new trainer! Try again.');

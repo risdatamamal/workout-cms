@@ -20,11 +20,11 @@ class RoleTableSeeder extends Seeder
             ],
             [
                 'name' => 'Trainer',
-                'guard_name' => 'mobile',
+                'guard_name' => 'web',
             ],
             [
                 'name' => 'Customer',
-                'guard_name' => 'mobile',
+                'guard_name' => 'web',
             ],
         ];
 

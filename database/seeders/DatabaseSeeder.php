@@ -23,10 +23,13 @@ class DatabaseSeeder extends Seeder
             RoleHasPermissionTableSeeder::class,
             ModelHasRoleTableSeeder::class,
             // ModelHasPermissionTableSeeder::class,
-            TrainerTableSeeder::class,
             MemberPlanTableSeeder::class,
             SpecialityTableSeeder::class,
             CustomerTableSeeder::class,
+            TrainerTableSeeder::class,
+            ExperienceTrainerTableSeeder::class,
+            SpecialityTrainerTableSeeder::class,
+            CertificationTrainerTableSeeder::class,
         ]);
     }
 }
