@@ -197,6 +197,8 @@ class CustomerController extends Controller
 
         if ($user) {
             $user->delete();
+            $user->removeRole('Customer');
+
             return redirect('customer')->with('success', 'Customer removed!');
         } else {
             return redirect('customer')->with('error', 'Customer not found');
