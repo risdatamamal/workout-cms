@@ -40,9 +40,10 @@ class TrainerController extends Controller
             })
             ->addColumn('experience', function ($data) {
                 $dataTrainer = Trainer::where('user_id', $data->id)->first();
+                $experienceTrainer = ExperienceTrainer::where('trainer_id', $dataTrainer->id)->get();
                 $badge = '';
-                if ($dataTrainer['experience'] != null) {
-                    foreach ($dataTrainer['experience'] as $key => $experience) {
+                if ($experienceTrainer != null) {
+                    foreach ($experienceTrainer as $key => $experience) {
                         $badge .= '<span class="badge badge-primary m-1">' . $experience['year'] . ' ' . $experience['company'] . '</span>';
 
                         $badge .= '<br>';
@@ -54,11 +55,12 @@ class TrainerController extends Controller
             })
             ->addColumn('speciality', function ($data) {
                 $dataTrainer = Trainer::where('user_id', $data->id)->first();
+                $specialityTrainer = SpecialityTrainer::where('trainer_id', $dataTrainer->id)->get();
                 $badge = '';
 
-                if ($dataTrainer['speciality'] != null) {
-                    foreach ($dataTrainer['speciality'] as $key => $speciality) {
-                        $badge .= '<span class="badge badge-warning m-1">' . $speciality . '</span>';
+                if ($specialityTrainer != null) {
+                    foreach ($specialityTrainer as $key => $speciality) {
+                        $badge .= '<span class="badge badge-warning m-1">' . $speciality->speciality->name . '</span>';
                         $badge .= '<br>';
                     }
                 } else {
@@ -69,11 +71,12 @@ class TrainerController extends Controller
             })
             ->addColumn('certification', function ($data) {
                 $dataTrainer = Trainer::where('user_id', $data->id)->first();
+                $certificationTrainer = CertificationTrainer::where('trainer_id', $dataTrainer->id)->get();
                 $badge = '';
 
-                if ($dataTrainer['certification'] != null) {
-                    foreach ($dataTrainer['certification'] as $key => $certification) {
-                        $badge .= '<span class="badge badge-success m-1">' . $certification['code_name'] . '</span>';
+                if ($certificationTrainer != null) {
+                    foreach ($certificationTrainer as $key => $certification) {
+                        $badge .= '<span class="badge badge-success m-1">' . $certification->code_name . '</span>';
                         $badge .= '<br>';
                     }
                 } else {

@@ -16,22 +16,22 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use DataTables, Auth;
 
-class ExperienceTrainerController extends Controller
+class CertificationTrainerController extends Controller
 {
     public function index($trainer_id)
     {
         $trainer = Trainer::findOrFail($trainer_id);
-        return view('pages.trainer.experience.index', compact('trainer'));
+        return view('pages.trainer.certification.index', compact('trainer'));
     }
 
-    public function getExperienceTrainerList(Request $request, $trainer_id)
+    public function getCertificationTrainerList(Request $request, $trainer_id)
     {
-        $data = ExperienceTrainer::where('trainer_id', $trainer_id)->get();
+        $data = CertificationTrainer::where('trainer_id', $trainer_id)->get();
 
         return DataTables::of($data)
             ->addColumn('action', function ($data) {
                 return '<div class="table-actions">
-                            <a href="' . route('experience-trainer.delete', ['trainer_id' => $data->trainer->id, 'id' => $data->id]) . '"><i class="ik ik-trash-2 f-16 text-red"></i></a>
+                            <a href="' . route('certification-trainer.delete', ['trainer_id' => $data->trainer->id, 'id' => $data->id]) . '"><i class="ik ik-trash-2 f-16 text-red"></i></a>
                         </div>';
             })
             ->rawColumns(['action'])
@@ -41,7 +41,7 @@ class ExperienceTrainerController extends Controller
     public function create($trainer_id)
     {
         try {
-            return view('pages.trainer.experience.create', compact('trainer_id'));
+            return view('pages.trainer.certification.create', compact('trainer_id'));
         } catch (\Exception $e) {
             $bug = $e->getMessage();
             return redirect()->back()->with('error', $bug);
@@ -51,9 +51,8 @@ class ExperienceTrainerController extends Controller
     public function store(Request $request, $trainer_id)
     {
         $validator = Validator::make($request->all(), [
-            'year' => 'required | string',
-            'company' => 'required | string',
-            'position' => 'required | string',
+            'name' => 'required | string',
+            'code_name' => 'required | string',
         ]);
 
         if ($validator->fails()) {
@@ -61,17 +60,16 @@ class ExperienceTrainerController extends Controller
         }
 
         try {
-            $experienceTrainer = ExperienceTrainer::create([
+            $certificationTrainer = CertificationTrainer::create([
                 'trainer_id' => $trainer_id,
-                'year' => $request->year,
-                'company' => $request->company,
-                'position' => $request->position,
+                'name' => $request->name,
+                'code_name' => $request->code_name,
             ]);
 
-            if ($experienceTrainer) {
-                return redirect()->route('experience-trainer.index', ['trainer_id' => $trainer_id])->with('success', 'Experience Trainer created successfully');
+            if ($certificationTrainer) {
+                return redirect()->route('certification-trainer.index', ['trainer_id' => $trainer_id])->with('success', 'Certification Trainer created successfully');
             } else {
-                return redirect()->route('experience-trainer.index', ['trainer_id' => $trainer_id])->with('error', 'Experience Trainer failed to create');
+                return redirect()->route('certification-trainer.index', ['trainer_id' => $trainer_id])->with('error', 'Certification Trainer failed to create');
             }
         } catch (\Exception $e) {
             $bug = $e->getMessage();
@@ -82,13 +80,13 @@ class ExperienceTrainerController extends Controller
     public function delete($trainer_id, $id)
     {
         try {
-            $experienceTrainer = ExperienceTrainer::where('trainer_id', $trainer_id)->findOrFail($id);
+            $certificationTrainer = CertificationTrainer::where('trainer_id', $trainer_id)->findOrFail($id);
 
-            if ($experienceTrainer) {
-                $experienceTrainer->delete();
-                return redirect()->route('experience-trainer.index', ['trainer_id' => $trainer_id])->with('success', 'Experience Trainer deleted successfully');
+            if ($certificationTrainer) {
+                $certificationTrainer->delete();
+                return redirect()->route('certification-trainer.index', ['trainer_id' => $trainer_id])->with('success', 'Certification Trainer deleted successfully');
             } else {
-                return redirect()->route('experience-trainer.index', ['trainer_id' => $trainer_id])->with('error', 'Experience Trainer failed to delete');
+                return redirect()->route('certification-trainer.index', ['trainer_id' => $trainer_id])->with('error', 'Certification Trainer failed to delete');
             }
         } catch (\Exception $e) {
             $bug = $e->getMessage();

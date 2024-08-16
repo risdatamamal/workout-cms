@@ -6,7 +6,7 @@
         var searchable = [];
         var selectable = [];
 
-        var dTable = $("#exp_trainer_table").DataTable({
+        var dTable = $("#sp_trainer_table").DataTable({
             order: [0, "asc"],
             lengthMenu: [
                 [10, 25, 50, 100, -1],
@@ -26,13 +26,11 @@
             pagingType: "full_numbers",
             dom: "<'row'<'col-sm-2'l><'col-sm-7 text-center'B><'col-sm-3'f>>tipr",
             ajax: {
-                url: "experience/get-list",
+                url: "speciality/get-list",
                 type: "get",
             },
             columns: [
-                { data: "year", name: "year" },
-                { data: "company", name: "company" },
-                { data: "position", name: "position" },
+                { data: "speciality", name: "speciality" },
                 //only those have manage_user permission will get access
                 {
                     data: "action",

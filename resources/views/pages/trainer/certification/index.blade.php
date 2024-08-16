@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('title', 'Experience Trainer')
+@section('title', 'Certification Trainer')
 @section('content')
     <!-- push external head elements to head -->
     @push('head')
@@ -13,8 +13,8 @@
                     <div class="page-header-title">
                         <i class="ik ik-pocket bg-success"></i>
                         <div class="d-inline">
-                            <h5>{{ __('Experience Trainer - ' . $trainer->user->name) }}</h5>
-                            <span>{{ __('List of experience trainer - ' . $trainer->user->name) }}</span>
+                            <h5>{{ __('Certification Trainer - ' . $trainer->user->name) }}</h5>
+                            <span>{{ __('List of certification trainer - ' . $trainer->user->name) }}</span>
                         </div>
                     </div>
                 </div>
@@ -28,7 +28,7 @@
                                 <a href="{{ url('trainer') }}">{{ __('Trainer') }}</a>
                             </li>
                             <li class="breadcrumb-item">
-                                <a href="javascript:void(0)">{{ __('Experience Trainer') }}</a>
+                                <a href="javascript:void(0)">{{ __('Certification Trainer') }}</a>
                             </li>
                         </ol>
                     </nav>
@@ -44,24 +44,23 @@
                     <div class="card-header">
                         <div class="row align-items-center">
                             <div class="col-lg-5">
-                                <h3>{{ __('Experience Trainer') }}</h3>
+                                <h3>{{ __('Certification Trainer') }}</h3>
                             </div>
                             <div class="col-lg-7">
                                 <a href="{{ url('trainer') }}" type="button" class="btn btn-light">
                                     <i class="ik ik-arrow-left"></i>{{ __('Back') }}
                                 </a>
-                                <a href="{{ route('experience-trainer.create', ['trainer_id' => $trainer->id]) }}"
+                                <a href="{{ route('certification-trainer.create', ['trainer_id' => $trainer->id]) }}"
                                     type="button" class="btn btn-light"><i class="ik ik-plus"></i>{{ __('Add') }}</a>
                             </div>
                         </div>
                     </div>
                     <div class="card-body">
-                        <table id="exp_trainer_table" class="table">
+                        <table id="cert_trainer_table" class="table">
                             <thead>
                                 <tr>
-                                    <th>{{ __('Year') }}</th>
-                                    <th>{{ __('Company') }}</th>
-                                    <th>{{ __('Position') }}</th>
+                                    <th>{{ __('Code Name') }}</th>
+                                    <th>{{ __('Name') }}</th>
                                     <th>{{ __('Action') }}</th>
                                 </tr>
                             </thead>
@@ -77,7 +76,7 @@
     @push('script')
         <script src="{{ asset('plugins/DataTables/datatables.min.js') }}"></script>
         <script src="{{ asset('plugins/select2/dist/js/select2.min.js') }}"></script>
-        <!--server side experience trainer table script-->
-        <script src="{{ asset('js/experience-trainer.js') }}"></script>
+        <!--server side certification trainer table script-->
+        <script src="{{ asset('js/certification-trainer.js') }}"></script>
     @endpush
 @endsection

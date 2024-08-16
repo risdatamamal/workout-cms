@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\CertificationTrainerController;
 use App\Http\Controllers\ClassController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ExperienceTrainerController;
@@ -19,6 +20,7 @@ use App\Http\Controllers\ReminderController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\SpecialityController;
+use App\Http\Controllers\SpecialityTrainerController;
 use App\Http\Controllers\TrainerController;
 use App\Http\Controllers\TransactionController;
 
@@ -104,6 +106,20 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/trainer/{trainer_id}/experience/create', [ExperienceTrainerController::class, 'create'])->name('experience-trainer.create');
     Route::post('/trainer/{trainer_id}/experience/create', [ExperienceTrainerController::class, 'store'])->name('experience-trainer.store');
     Route::get('/trainer/{trainer_id}/experience/delete/{id}', [ExperienceTrainerController::class, 'delete'])->name('experience-trainer.delete');
+
+    // Speciality Trainer
+    Route::get('/trainer/{trainer_id}/speciality', [SpecialityTrainerController::class, 'index'])->name('speciality-trainer.index');
+    Route::get('/trainer/{trainer_id}/speciality/get-list', [SpecialityTrainerController::class, 'getSpecialityTrainerList']);
+    Route::get('/trainer/{trainer_id}/speciality/create', [SpecialityTrainerController::class, 'create'])->name('speciality-trainer.create');
+    Route::post('/trainer/{trainer_id}/speciality/create', [SpecialityTrainerController::class, 'store'])->name('speciality-trainer.store');
+    Route::get('/trainer/{trainer_id}/speciality/delete/{id}', [SpecialityTrainerController::class, 'delete'])->name('speciality-trainer.delete');
+
+    // Certification Trainer
+    Route::get('/trainer/{trainer_id}/certification', [CertificationTrainerController::class, 'index'])->name('certification-trainer.index');
+    Route::get('/trainer/{trainer_id}/certification/get-list', [CertificationTrainerController::class, 'getCertificationTrainerList']);
+    Route::get('/trainer/{trainer_id}/certification/create', [CertificationTrainerController::class, 'create'])->name('certification-trainer.create');
+    Route::post('/trainer/{trainer_id}/certification/create', [CertificationTrainerController::class, 'store'])->name('certification-trainer.store');
+    Route::get('/trainer/{trainer_id}/certification/delete/{id}', [CertificationTrainerController::class, 'delete'])->name('certification-trainer.delete');
 
     // Customer
     Route::get('/customer', [CustomerController::class, 'index']);

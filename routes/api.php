@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\RolesController;
 use App\Http\Controllers\Api\PermissionController;
+use App\Http\Controllers\Api\VerificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +22,11 @@ use App\Http\Controllers\Api\PermissionController;
 
 Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'register']);
+
+Route::get('email/verify', [VerificationController::class, 'show'])->middleware('auth:api')->name('verification.notice');
+Route::get('email/verify/{id}/{hash}', [VerificationController::class, 'verify'])->middleware(['auth:api', 'signed'])->name('verification.verify');
+Route::post('email/send', [VerificationController::class, 'send'])->middleware(['auth:api', 'throttle:6,1'])->name('verification.send');
+Route::post('email/resend', [VerificationController::class, 'resend'])->middleware(['auth:api', 'throttle:6,1'])->name('verification.resend');
 
 Route::middleware('auth:api')->group(function () {
     Route::get('member-plans', [AuthController::class, 'memberPlans']);

@@ -151,7 +151,6 @@ class AuthController extends Controller
         }
     }
 
-
     public function changePassword(Request $request)
     {
         try {
@@ -190,18 +189,24 @@ class AuthController extends Controller
         }
     }
 
-
     public function updateProfile(Request $request)
     {
         try {
             $validData = Validator::make($request->all(), [
-                'name' => 'required|string',
-                'email' => 'required|email'
+                'name' => 'required | string | max:255',
+                'email' => 'required | string | email | max:255 | unique:users',
+                'phone_number' => 'nullable | string | max:255',
             ]);
 
+            if ($validData->fails()) {
+                return ResponseFormatter::error([
+                    'message' => 'Invalid input',
+                ], 'Update Profile Failed', 400);
+            }
+
             $user = Auth::user();
+
             if ($user) {
-                // Check unique email except this user
                 if (isset($request->email)) {
                     $check = User::where('email', $request->email)
                         ->where('id', '!=', $user->id)
@@ -215,7 +220,13 @@ class AuthController extends Controller
                     }
                 }
 
-                $user->update($validData);
+                $user->update([
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'phone_number' => $request->phone_number,
+                    // 'province_id' => $request->province_id == 0 ? null : $request->province_id,
+                    // 'regency_id' => $request->regency_id == 0 ? null : $request->regency_id
+                ]);
 
                 return ResponseFormatter::success([
                     'status' => 1,
@@ -232,7 +243,6 @@ class AuthController extends Controller
             ], 'Update Profile Failed', 500);
         }
     }
-
 
     public function logout(Request $request)
     {
