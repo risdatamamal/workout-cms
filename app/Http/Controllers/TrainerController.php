@@ -42,7 +42,7 @@ class TrainerController extends Controller
                 $dataTrainer = Trainer::where('user_id', $data->id)->first();
                 $experienceTrainer = ExperienceTrainer::where('trainer_id', $dataTrainer->id)->get();
                 $badge = '';
-                if ($experienceTrainer != null) {
+                if ($experienceTrainer != null && count($experienceTrainer) > 0) {
                     foreach ($experienceTrainer as $key => $experience) {
                         $badge .= '<span class="badge badge-primary m-1">' . $experience['year'] . ' ' . $experience['company'] . '</span>';
 
@@ -58,7 +58,7 @@ class TrainerController extends Controller
                 $specialityTrainer = SpecialityTrainer::where('trainer_id', $dataTrainer->id)->get();
                 $badge = '';
 
-                if ($specialityTrainer != null) {
+                if ($specialityTrainer != null && count($specialityTrainer) > 0) {
                     foreach ($specialityTrainer as $key => $speciality) {
                         $badge .= '<span class="badge badge-warning m-1">' . $speciality->speciality->name . '</span>';
                         $badge .= '<br>';
@@ -74,7 +74,7 @@ class TrainerController extends Controller
                 $certificationTrainer = CertificationTrainer::where('trainer_id', $dataTrainer->id)->get();
                 $badge = '';
 
-                if ($certificationTrainer != null) {
+                if ($certificationTrainer != null && count($certificationTrainer) > 0) {
                     foreach ($certificationTrainer as $key => $certification) {
                         $badge .= '<span class="badge badge-success m-1">' . $certification->code_name . '</span>';
                         $badge .= '<br>';
@@ -102,14 +102,11 @@ class TrainerController extends Controller
                 }
                 if (Auth::user()->can('manage_user')) {
                     $trainer = Trainer::where('user_id', $data->id)->first();
-                    $experience = ExperienceTrainer::where('trainer_id', $trainer->id)->first();
-                    $speciality = SpecialityTrainer::where('trainer_id', $trainer->id)->first();
-                    $certification = CertificationTrainer::where('trainer_id', $trainer->id)->first();
 
                     return '<div class="table-actions">
-                                <a href="' . url('trainer/' . $experience->id . '/experience') . '" ><i class="ik ik-pocket f-16 mr-10 text-blue"></i></a>
-                                <a href="' . url('trainer/' . $speciality->id . '/speciality') . '" ><i class="ik ik-award f-16 mr-10 text-blue"></i></a>
-                                <a href="' . url('trainer/' . $certification->id . '/certification') . '" ><i class="ik ik-file-text f-16 mr-10 text-blue"></i></a>
+                                <a href="' . url('trainer/' . $trainer->id . '/experience') . '" ><i class="ik ik-pocket f-16 mr-10 text-blue"></i></a>
+                                <a href="' . url('trainer/' . $trainer->id . '/speciality') . '" ><i class="ik ik-award f-16 mr-10 text-blue"></i></a>
+                                <a href="' . url('trainer/' . $trainer->id . '/certification') . '" ><i class="ik ik-file-text f-16 mr-10 text-blue"></i></a>
                                 <a href="' . url('trainer/edit/' . $data->id) . '" ><i class="ik ik-edit-2 f-16 mr-10 text-green"></i></a>
                                 <a href="' . url('trainer/delete/' . $data->id) . '"><i class="ik ik-trash-2 f-16 text-red"></i></a>
                             </div>';
@@ -168,22 +165,12 @@ class TrainerController extends Controller
             ]);
 
             if ($request->contract != 0 || $request->contract != null) {
-                $trainer->contracted_at = now()->format('Y-m-d');
+                $trainer = Trainer::create([
+                    'contracted_at' => now()->format('Y-m-d'),
+                ]);
             }
 
-            $experience = ExperienceTrainer::create([
-                'trainer_id'    => $trainer->id
-            ]);
-
-            $speciality = SpecialityTrainer::create([
-                'trainer_id'    => $trainer->id
-            ]);
-
-            $certification = CertificationTrainer::create([
-                'trainer_id'    => $trainer->id
-            ]);
-
-            if ($user && $trainer && $experience && $speciality && $certification) {
+            if ($user && $trainer) {
                 return redirect('trainer')->with('success', 'New trainer created!');
             } else {
                 return redirect()->back()->with('error', 'Failed to create new trainer! Try again.');
@@ -197,19 +184,25 @@ class TrainerController extends Controller
     public function edit($id)
     {
         try {
-            $provinces = Province::all();
-            $roles     = Role::where('name', 'Trainer')->pluck('name', 'id');
-            $user      = User::find($id);
+            $user  = User::with('roles', 'permissions')->find($id);
             $trainer   = Trainer::where('user_id', $id)->first();
 
-            return view('pages.trainer.edit', compact('roles', 'provinces', 'user', 'trainer'));
+            if ($user && $trainer) {
+                $user_role = $user->roles->first();
+                $provinces = Province::all();
+                $roles     = Role::where('name', 'Trainer')->pluck('name', 'id');
+
+                return view('pages.trainer.edit', compact('user_role', 'roles', 'provinces', 'user', 'trainer'));
+            } else {
+                return redirect('trainer')->with('error', 'Trainer not found');
+            }
         } catch (\Exception $e) {
             $bug = $e->getMessage();
             return redirect()->back()->with('error', $bug);
         }
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'name'           => 'required | string ',
@@ -224,8 +217,8 @@ class TrainerController extends Controller
         }
 
         try {
-            $user = User::find($id);
-            $trainer = Trainer::where('user_id', $id)->first();
+            $user = User::find($request->id);
+            $trainer = Trainer::where('user_id', $request->id)->first();
 
             if ($user && $trainer) {
                 $user->update([
@@ -244,7 +237,13 @@ class TrainerController extends Controller
                 ]);
 
                 if ($request->contract != 0 || $request->contract != null) {
-                    $trainer->contracted_at = now()->format('Y-m-d');
+                    $trainer->update([
+                        'contracted_at' => now()->format('Y-m-d'),
+                    ]);
+                } else {
+                    $trainer->update([
+                        'contracted_at' => null,
+                    ]);
                 }
 
                 if ($user && $trainer) {
@@ -266,11 +265,14 @@ class TrainerController extends Controller
         try {
             $user = User::find($id);
             $trainer = Trainer::where('user_id', $id)->first();
+            ExperienceTrainer::where('trainer_id', $trainer->id)->delete();
+            SpecialityTrainer::where('trainer_id', $trainer->id)->delete();
+            CertificationTrainer::where('trainer_id', $trainer->id)->delete();
 
             if ($user && $trainer) {
+                $user->removeRole('Trainer');
                 $user->delete();
                 $trainer->delete();
-                $user->removeRole('Trainer');
 
                 return redirect('trainer')->with('success', 'Trainer deleted!');
             } else {

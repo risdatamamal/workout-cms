@@ -134,7 +134,7 @@ class CustomerController extends Controller
                 $provinces = Province::all();
                 $roles     = Role::where('name', 'Customer')->pluck('name', 'id');
 
-                return view('pages.customer.edit', compact('user', 'user_role', 'provinces', 'roles'));
+                return view('pages.customer.edit', compact('user', 'user_role', 'provinces', 'roles' , 'customer'));
             } else {
                 return redirect('customer')->with('error', 'Customer not found');
             }
