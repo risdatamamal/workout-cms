@@ -41,7 +41,7 @@
                     <div class="card-header">
                         <div class="row align-items-center">
                             <div class="col-lg-5">
-                                <a href="{{ url('customer') }}" type="button" class="btn btn-light">
+                                <a href="{{ url('class') }}" type="button" class="btn btn-light">
                                     <i class="ik ik-arrow-left"></i>{{ __('Back') }}
                                 </a>
                             </div>
@@ -56,18 +56,14 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label for="class_name">{{ __('Class Name') }}<span
+                                        <label for="speciality_id">{{ __('Class Name') }}<span
                                                 class="text-red">*</span></label>
-                                        <input id="class_name" type="text"
-                                            class="form-control @error('class_name') is-invalid @enderror" name="class_name"
-                                            value="{{ old('class_name') }}" placeholder="Enter class name" required>
-                                        <div class="help-block with-errors"></div>
-
-                                        @error('class_name')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
+                                        <select class="form-control select2" name="speciality_id" id="speciality_id">
+                                            <option selected disabled>Select Class Name</option>
+                                            @foreach ($specialites as $speciality)
+                                                <option value="{{ $speciality->id }}">{{ $speciality->name }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                     <div class="form-group">
                                         <label for="desc">{{ __('Description') }}</label>
@@ -114,12 +110,12 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="user_id">{{ __('Assign Trainer') }}<span
+                                        <label for="trainer_id">{{ __('Trainer') }}<span
                                                 class="text-red">*</span></label>
-                                        <select class="form-control select2" name="user_id" id="user_id">
+                                        <select class="form-control select2" name="trainer_id" id="trainer_id">
                                             <option value="">Select Trainer</option>
                                             @foreach ($trainers as $trainer)
-                                                <option value="{{ $trainer->id }}">{{ $trainer->name }}</option>
+                                                <option value="{{ $trainer->id }}">{{ $trainer->user->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -149,7 +145,7 @@
                                                     <option>Select Level</option>
                                                     <option value="easy">Easy</option>
                                                     <option value="medium">Medium</option>
-                                                    <option value="hard">Hard</option>
+                                                    <option value="advanced">Advanced</option>
                                                 </select>
                                             </div>
                                         </div>

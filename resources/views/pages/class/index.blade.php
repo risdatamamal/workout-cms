@@ -50,12 +50,11 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <table id="member_plan_table" class="table">
+                        <table id="classes_table" class="table">
                             <thead>
                                 <tr>
                                     <th>{{ __('Class') }}</th>
                                     <th>{{ __('Trainer') }}</th>
-                                    <th>{{ __('Description') }}</th>
                                     <th>{{ __('Duration') }}</th>
                                     <th>{{ __('Level') }}</th>
                                     <th>{{ __('Type') }}</th>
@@ -65,38 +64,6 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>Yoga</td>
-                                    <td>Jonathan</td>
-                                    <td>Yoga adal*</td>
-                                    <td>60 Mins</td>
-                                    <td>Medium</td>
-                                    <td>Mind & Body</td>
-                                    <td>20</td>
-                                    <td>120</td>
-                                    <td>
-                                        <div class="table-actions">
-                                            <a href="#"><i class="ik ik-edit-2 f-16 mr-15 text-green"></i></a>
-                                            <a href="#"><i class="ik ik-trash-2 f-16 text-red"></i></a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Zumba</td>
-                                    <td>Jonathan</td>
-                                    <td>Zumba adal*</td>
-                                    <td>60 Mins</td>
-                                    <td>Medium</td>
-                                    <td>Mind & Body</td>
-                                    <td>20</td>
-                                    <td>200</td>
-                                    <td>
-                                        <div class="table-actions">
-                                            <a href="#"><i class="ik ik-edit-2 f-16 mr-15 text-green"></i></a>
-                                            <a href="#"><i class="ik ik-trash-2 f-16 text-red"></i></a>
-                                        </div>
-                                    </td>
-                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -109,6 +76,6 @@
         <script src="{{ asset('plugins/DataTables/datatables.min.js') }}"></script>
         <script src="{{ asset('plugins/select2/dist/js/select2.min.js') }}"></script>
         <!--server side class table script-->
-        {{-- <script src="{{ asset('js/member-plan.js') }}"></script> --}}
+        <script src="{{ asset('js/classes.js') }}"></script>
     @endpush
 @endsection
