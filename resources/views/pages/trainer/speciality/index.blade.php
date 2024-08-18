@@ -11,7 +11,7 @@
             <div class="row align-items-end">
                 <div class="col-lg-8">
                     <div class="page-header-title">
-                        <i class="ik ik-pocket bg-success"></i>
+                        <i class="ik ik-award bg-success"></i>
                         <div class="d-inline">
                             <h5>{{ __('Speciality Trainer - ' . $trainer->user->name) }}</h5>
                             <span>{{ __('List of speciality trainer - ' . $trainer->user->name) }}</span>

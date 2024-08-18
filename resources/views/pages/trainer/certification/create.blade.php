@@ -12,7 +12,7 @@
             <div class="row align-items-end">
                 <div class="col-lg-8">
                     <div class="page-header-title">
-                        <i class="ik ik-user-plus bg-success"></i>
+                        <i class="ik ik-file-text bg-success"></i>
                         <div class="d-inline">
                             <h5>{{ __('Add Certification Trainer') }}</h5>
                             <span>{{ __('Create new experience trainer') }}</span>
