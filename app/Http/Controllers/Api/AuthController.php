@@ -43,12 +43,9 @@ class AuthController extends Controller
             if ($user) {
                 $accessToken = Auth::user()->createToken('authToken')->accessToken;
                 $roles = $user->getRoleNames();
-                $permission = $user->getAllPermissions();
 
                 return ResponseFormatter::success([
                     'user'         => $user,
-                    'roles'        => $roles,
-                    // 'permission'   => $permission,
                     'token_type'   => 'Bearer',
                     'access_token' => $accessToken
                 ], 'Authenticated');
@@ -106,7 +103,6 @@ class AuthController extends Controller
 
                 return ResponseFormatter::success([
                     'user' => $user,
-                    'roles' => $roles,
                     'token_type' => 'Bearer',
                     'access_token' => $accessToken,
                 ], 'Registration success');
@@ -134,7 +130,7 @@ class AuthController extends Controller
 
                 return ResponseFormatter::success([
                     'user'       => $user,
-                    'roles'      => $roles,
+                    // 'roles'      => $roles,
                     // 'permission' => $permission,
                 ], 'Get profile success');
             } else {
