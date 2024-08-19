@@ -126,7 +126,7 @@ class AuthController extends Controller
 
             if ($user) {
                 $roles = $user->getRoleNames();
-                $permission = $user->getAllPermissions();
+                // $permission = $user->getAllPermissions();
 
                 return ResponseFormatter::success([
                     'user'       => $user,
