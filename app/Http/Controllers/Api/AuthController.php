@@ -67,7 +67,7 @@ class AuthController extends Controller
                         'access_token'            => $accessToken,
                         'user'                    => $user,
                         'trainer'                 => $trainer,
-                        'experience_trainer'   => $experience_trainer,
+                        'experience_trainer'      => $experience_trainer,
                         'speciality_trainer'      => $speciality_trainer,
                         'certification_trainer'   => $certification_trainer
                     ], 'Authenticated');
@@ -127,11 +127,13 @@ class AuthController extends Controller
             if ($user && $customer) {
                 $accessToken = $userToken->createToken('authToken')->accessToken;
                 $roles = $user->getRoleNames();
+                $customer = Member::where('user_id', $user->id)->with('user')->first();
 
                 return ResponseFormatter::success([
-                    'user' => $user,
                     'token_type' => 'Bearer',
                     'access_token' => $accessToken,
+                    'user' => $user,
+                    'customer' => $customer
                 ], 'Registration success');
             } else {
                 return ResponseFormatter::error([
@@ -155,7 +157,7 @@ class AuthController extends Controller
                 $roles = $user->getRoleNames();
 
                 if ($roles[0] == 'Customer') {
-                    $customer = Member::where('user_id', $user->id)->with('user')->first();
+                    $customer = Member::where('user_id', $user->id)->with('user', 'member_plan')->first();
 
                     return ResponseFormatter::success([
                         'user'       => $user,

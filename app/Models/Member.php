@@ -36,6 +36,6 @@ class Member extends Model
 
     public function member_plan()
     {
-        return $this->hasOne(MemberPlan::class, 'member_plan_id', 'id');
+        return $this->hasOne(MemberPlan::class, 'id');
     }
 }
