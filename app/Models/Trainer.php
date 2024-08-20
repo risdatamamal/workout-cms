@@ -17,8 +17,12 @@ class Trainer extends Model
         'contracted_at'
     ];
 
+    protected $hidden = [
+        'user',
+    ];
+
     protected $casts = [
-        'contracted_at'   => 'date',
+        'contracted_at'   => 'datetime:d/m/Y',
         'created_at'      => 'datetime:d/m/Y H:m',
         'updated_at'      => 'datetime:d/m/Y H:m'
     ];

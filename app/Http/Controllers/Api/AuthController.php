@@ -9,7 +9,11 @@ use App\Models\Province;
 use App\Models\Regency;
 use Illuminate\Http\Request;
 use App\Helpers\ResponseFormatter;
+use App\Models\CertificationTrainer;
+use App\Models\ExperienceTrainer;
 use App\Models\MemberPlan;
+use App\Models\SpecialityTrainer;
+use App\Models\Trainer;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
@@ -44,11 +48,34 @@ class AuthController extends Controller
                 $accessToken = Auth::user()->createToken('authToken')->accessToken;
                 $roles = $user->getRoleNames();
 
-                return ResponseFormatter::success([
-                    'user'         => $user,
-                    'token_type'   => 'Bearer',
-                    'access_token' => $accessToken
-                ], 'Authenticated');
+                if ($roles[0] == 'Customer') {
+                    $customer = Member::where('user_id', $user->id)->with('user')->first();
+                    return ResponseFormatter::success([
+                        'token_type'   => 'Bearer',
+                        'access_token' => $accessToken,
+                        'user'         => $user,
+                        'customer'     => $customer
+                    ], 'Authenticated');
+                } else if ($roles[0] == 'Trainer') {
+                    $trainer = Trainer::where('user_id', $user->id)->with('user')->first();
+                    $experience_trainer = ExperienceTrainer::where('trainer_id', $trainer->id)->get();
+                    $speciality_trainer = SpecialityTrainer::where('trainer_id', $trainer->id)->get();
+                    $certification_trainer = CertificationTrainer::where('trainer_id', $trainer->id)->get();
+
+                    return ResponseFormatter::success([
+                        'token_type'              => 'Bearer',
+                        'access_token'            => $accessToken,
+                        'user'                    => $user,
+                        'trainer'                 => $trainer,
+                        'experience_trainer'   => $experience_trainer,
+                        'speciality_trainer'      => $speciality_trainer,
+                        'certification_trainer'   => $certification_trainer
+                    ], 'Authenticated');
+                } else {
+                    return ResponseFormatter::error([
+                        'message' => 'Your account can\'t to access.'
+                    ], 'Authentication Failed', 500);
+                }
             } else {
                 return ResponseFormatter::error([
                     'message' => 'Your account can\'t to access.'
@@ -126,13 +153,32 @@ class AuthController extends Controller
 
             if ($user) {
                 $roles = $user->getRoleNames();
-                // $permission = $user->getAllPermissions();
 
-                return ResponseFormatter::success([
-                    'user'       => $user,
-                    // 'roles'      => $roles,
-                    // 'permission' => $permission,
-                ], 'Get profile success');
+                if ($roles[0] == 'Customer') {
+                    $customer = Member::where('user_id', $user->id)->with('user')->first();
+
+                    return ResponseFormatter::success([
+                        'user'       => $user,
+                        'customer'   => $customer,
+                    ], 'Get profile success');
+                } else if ($roles[0] == 'Trainer') {
+                    $trainer = Trainer::where('user_id', $user->id)->with('user')->first();
+                    $experience_trainer = ExperienceTrainer::where('trainer_id', $trainer->id)->get();
+                    $speciality_trainer = SpecialityTrainer::where('trainer_id', $trainer->id)->with('speciality')->get();
+                    $certification_trainer = CertificationTrainer::where('trainer_id', $trainer->id)->get();
+
+                    return ResponseFormatter::success([
+                        'user'                    => $user,
+                        'trainer'                 => $trainer,
+                        'experience_trainer'      => $experience_trainer,
+                        'speciality_trainer'      => $speciality_trainer,
+                        'certification_trainer'   => $certification_trainer
+                    ], 'Get profile success');
+                } else {
+                    return ResponseFormatter::error([
+                        'message' => 'Your account can\'t to access.'
+                    ], 'Get Profile Failed', 500);
+                }
             } else {
                 return ResponseFormatter::error([
                     'message' => 'Unauthorized.'

@@ -18,9 +18,13 @@ class Member extends Model
         'expired_date',
     ];
 
+    protected $hidden = [
+        'user',
+    ];
+
     protected $casts = [
-        'enrolled_date'     => 'date',
-        'expired_date'      => 'date',
+        'enrolled_date'     => 'datetime:d/m/Y',
+        'expired_date'      => 'datetime:d/m/Y',
         'created_at'        => 'datetime:d/m/Y H:m',
         'updated_at'        => 'datetime:d/m/Y H:m'
     ];
